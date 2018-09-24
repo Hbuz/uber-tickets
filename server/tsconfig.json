@@ -21,7 +21,7 @@
     "rootDir": "src/"
   },
   "include": [
-      "src/**/*", "../client/src/lib/utils.ts", "../client/src/reducers/players.js", "../client/src/reducers/index.js"
+      "src/**/*", "../client/src/lib/utils.ts", "../client/src/reducers/players.js", "../client/src/reducers/index.js", "../client/src/components/login/LoginForm.jsx", "../client/src/components/login/LoginFormContainer.jsx"
   ],
   "exclude": [
       "node_modules",

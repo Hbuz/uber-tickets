@@ -1,10 +1,11 @@
-import React, { PureComponent } from 'react'
-import {Redirect} from 'react-router-dom'
+// import React, { PureComponent } from 'react'
+import React, { Component } from 'react'  //For working Link
+import { Redirect, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import LoginForm from './LoginForm'
-import {login} from '../actions/auth'
+import { login } from '../../actions/auth'
 
-class LoginFormContainer extends PureComponent {
+class LoginFormContainer extends Component {
   state = { email: '', password: '' }
 
   handleSubmit = (event) => {
@@ -24,11 +25,16 @@ class LoginFormContainer extends PureComponent {
     )
     return (
       <div>
-        LOGIN!
+        <div>
+          LOGIN!
         {/* <LoginForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} values={this.state} /> */}
-        <LoginForm handleSubmit={this.handleSubmit} />
-        {this.props.error &&
-          <span style={{ color: 'red' }}>{this.props.error}</span>}
+          <LoginForm handleSubmit={this.handleSubmit} />
+          {this.props.error &&
+            <span style={{ color: 'red' }}>{this.props.error}</span>}
+        </div>
+        <div>
+          <Link to='/signup'>SIGNUP!</Link> 
+        </div>
       </div>
     )
   }
@@ -41,4 +47,6 @@ const mapStateToProps = function (state) {
   }
 }
 
-export default connect(mapStateToProps, { login })(LoginFormContainer)
+const mapDispatchToProps = { login }
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginFormContainer)

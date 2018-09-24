@@ -5,12 +5,13 @@ import User from './entity'
 export default class UserController {
 
   @Post('/users')
-  async createUser(
+  async createUser( //signup
     @Body() user: User
   ) {
     const { password, ...rest } = user
     const entity = User.create(rest)
     await entity.setPassword(password)
-    return entity.save()
+    const userWithPW = await entity.save()
+    return userWithPW
   }
 }
