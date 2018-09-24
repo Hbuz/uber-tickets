@@ -1,15 +1,36 @@
 import 'reflect-metadata'
-import {createKoaServer} from "routing-controllers"
-
+import { createKoaServer, Action, BadRequestError } from "routing-controllers"
+import { verify } from './jwt'
 import setupDb from './db'
+import LoginController from './logins/controller'
+import UserController from './users/controller'
 
 const port = process.env.PORT || 4000
 
+
 const app = createKoaServer({
-   cors: true,
-   controllers: [
-   ]
+  cors: true,
+  controllers: [
+    LoginController,
+    UserController
+  ],
+  authorizationChecker: (action: Action) => {
+    const header: string = action.request.headers.authorization
+
+    if (header && header.startsWith('Bearer ')) {
+      const [, token] = header.split(' ')
+      try {
+        return !!(token && verify(token))
+      }
+      catch (e) {
+        throw new BadRequestError(e)
+      }
+    }
+
+    return false
+  }
 })
+
 
 setupDb()
   .then(_ =>
