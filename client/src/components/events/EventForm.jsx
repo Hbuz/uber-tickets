@@ -14,7 +14,7 @@ const styles = (theme) => ({
 })
 
 
-const TicketForm = withStyles(styles)(
+const EventForm = withStyles(styles)(
   class extends PureComponent {
 
     state = {}
@@ -47,4 +47,4 @@ const TicketForm = withStyles(styles)(
     }
   })
 
-export default TicketForm
+export default EventForm

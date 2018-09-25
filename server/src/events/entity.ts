@@ -24,6 +24,6 @@ export default class Event extends BaseEntity {
 
   // this is a relation, read more about them here:
   // http://typeorm.io/#/many-to-one-one-to-many-relations
-  @OneToMany(_ => Ticket, ticket => ticket.event, { eager: true })
+  @OneToMany(_ => Ticket, ticket => ticket.event)
   tickets: Ticket[]
 }

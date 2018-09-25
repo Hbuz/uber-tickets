@@ -10,10 +10,10 @@ export default class Ticket extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
-  @ManyToOne(_ => User, user => user.tickets)
+  @ManyToOne(_ => User, user => user.tickets, { eager: true })
   user: User
 
-  @ManyToOne(_ => Event, event => event.tickets)
+  @ManyToOne(_ => Event, event => event.tickets, { eager: true })
   event: Event
 
   @Column({ nullable: true })

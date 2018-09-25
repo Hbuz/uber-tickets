@@ -11,9 +11,11 @@ export default class TicketController {
   async getTickets(@Param("eventId") eventId: number) {
     
     const event = await Event.findOne({id: eventId})  //CHECK
+    const tickets = event?await Ticket.find({where: {eventId: event.id}}) : null
     console.log("eeeeeeeeeeeeeeeeeeeeeEEEEEEEeeeee: "+JSON.stringify(event))
+    console.log("eeeeeeeeeeeeeeeeeeeeeEEEEEEEeeeee: "+tickets)
     // return Ticket.find(event)
-    return event? event.tickets:[]
+    return event? tickets:[]
   }
 
 
