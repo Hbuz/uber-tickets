@@ -45,11 +45,11 @@ const EventsContainer = withStyles(styles)(
     render() {
       if (!this.props.events) return 'Loading...'
 
-      console.log("EVENTI: " + JSON.stringify(this.props.events))
+      // console.log("EVENTI: " + JSON.stringify(this.props.events))
 
       const { classes, events } = this.props
 
-      console.log("EVENTddddddddddddddI: " + events['events'])
+      // console.log("EVENTddddddddddddddI: " + events['events'])
 
       return (
         <div className={classes.root}>
@@ -61,7 +61,7 @@ const EventsContainer = withStyles(styles)(
                   events['events'].map(event => (
                     <Grid key={event.id} item xs={12} sm={6} md={4} lg={3}>
 
-                    <Link to="/tickets"> 
+                    <Link to={`/events/${event.id}/tickets`}> 
                       <Events
                         {...event}
                       />

@@ -14,7 +14,7 @@ const styles = (theme) => ({
 })
 
 
-const TicketForm = withStyles(styles)(
+const EventForm = withStyles(styles)(
   class extends PureComponent {
 
     state = {}
@@ -23,11 +23,11 @@ const TicketForm = withStyles(styles)(
       return (
         <form className={this.props.classes.container} noValidate autoComplete="off" onSubmit={this.props.handleSubmit} >
           <TextField
-            id="standard-name"
+            id="standard-price"
             label="Price"
             className={this.props.classes.textField}
             value={this.state.price}
-            onChange={this.props.handleChange('name')}
+            onChange={this.props.handleChange('price')}
             margin="normal"
           />
           <TextField
@@ -39,12 +39,11 @@ const TicketForm = withStyles(styles)(
             margin="normal"
           />
           {/* pircture */}
-          {/* start date */}
-          {/* end date */}
-          <button type="submit">CREATE EVENT</button>
+         
+          <button type="submit">CREATE TICKET</button>
         </form>
       )
     }
   })
 
-export default TicketForm
+export default EventForm

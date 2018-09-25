@@ -1,18 +1,18 @@
-import { EVENTS_FETCHED, ADD_EVENT } from '../actions/events'
+import { TICKETS_FETCHED, ADD_TICKET } from '../actions/tickets'
 
 
 export default function (state = [], { type, payload }) {
   switch (type) {
-    case EVENTS_FETCHED:
+    case TICKETS_FETCHED:
       // console.log("INDIDE REDCIESDS: " + JSON.stringify(payload))
       return {
         ...state,
-        events: payload
+        tickets: payload
       }
-    case ADD_EVENT:
+    case ADD_TICKET:
       return {
         ...state,
-        events: [...state.events, payload]
+        tickets: [...state.tickets, payload]
       }
     default:
       return state

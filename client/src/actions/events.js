@@ -17,7 +17,7 @@ const addEvent = event => ({
 
 
 export const loadEvents = () => (dispatch, getState) => {
-  console.log("ssssssssssssssssssssssssssssss   " + JSON.stringify(getState()))
+  // console.log("ssssssssssssssssssssssssssssss   " + JSON.stringify(getState()))
   if (getState().events.lenght > 0) return
 
   request(`${baseUrl}/events`)

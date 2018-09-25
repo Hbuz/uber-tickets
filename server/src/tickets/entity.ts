@@ -19,9 +19,9 @@ export default class Ticket extends BaseEntity {
   @Column({ nullable: true })
   picture: string
 
-  @Column()
+  @Column({nullable: true}) //TRY TO REMOVE
   price: number
 
-  @Column('text')
+  @Column('text', {nullable: true})//TRY TO REMOVE
   description: string
 }

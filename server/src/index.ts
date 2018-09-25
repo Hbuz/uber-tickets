@@ -5,6 +5,7 @@ import setupDb from './db'
 import LoginController from './logins/controller'
 import UserController from './users/controller'
 import EventController from './events/controller'
+import TicketController from './tickets/controller'
 
 const port = process.env.PORT || 4000
 
@@ -14,7 +15,8 @@ const app = createKoaServer({
   controllers: [
     LoginController,
     UserController,
-    EventController
+    EventController,
+    TicketController
   ],
   authorizationChecker: (action: Action) => {
     const header: string = action.request.headers.authorization
