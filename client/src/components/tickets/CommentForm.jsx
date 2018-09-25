@@ -14,7 +14,7 @@ const styles = (theme) => ({
 })
 
 
-const EventForm = withStyles(styles)(
+const CommentForm = withStyles(styles)(
   class extends PureComponent {
 
     state = {}
@@ -23,28 +23,18 @@ const EventForm = withStyles(styles)(
       return (
         <form className={this.props.classes.container} noValidate autoComplete="off" onSubmit={this.props.handleSubmit} >
           <TextField
-            id="standard-name"
-            label="Price"
+            id="standard-text"
+            label="Text"
             className={this.props.classes.textField}
-            value={this.state.price}
-            onChange={this.props.handleChange('name')}
+            value={this.state.text}
+            onChange={this.props.handleChange('text')}
             margin="normal"
           />
-          <TextField
-            id="standard-description"
-            label="Description"
-            className={this.props.classes.textField}
-            value={this.state.description}
-            onChange={this.props.handleChange('description')}
-            margin="normal"
-          />
-          {/* pircture */}
-          {/* start date */}
-          {/* end date */}
-          <button type="submit">CREATE EVENT</button>
+         
+          <button type="submit">ADD COMMENT</button>
         </form>
       )
     }
   })
 
-export default EventForm
+export default CommentForm
