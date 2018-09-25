@@ -1,6 +1,7 @@
-import { BaseEntity, PrimaryGeneratedColumn, Column, Entity, ManyToOne } from 'typeorm'
+import { BaseEntity, PrimaryGeneratedColumn, Column, Entity, ManyToOne, OneToMany } from 'typeorm'
 import User from '../users/entity'
 import Event from '../events/entity'
+import Comment from '../comments/entity'
 
 // @Entity()
 // @Index(['game', 'user', 'avatar'], { unique: true }) //???
@@ -15,6 +16,9 @@ export default class Ticket extends BaseEntity {
 
   @ManyToOne(_ => Event, event => event.tickets, { eager: true })
   event: Event
+
+  @OneToMany(_ => Comment, comment => comment.ticket, { eager: true })
+  comments: Comment[]
 
   @Column({ nullable: true })
   picture: string

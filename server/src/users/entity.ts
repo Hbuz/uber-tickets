@@ -4,6 +4,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm'
 import { BaseEntity } from 'typeorm/repository/BaseEntity'
 import * as bcrypt from 'bcrypt'
 import Ticket from '../tickets/entity'
+import Comment from '../comments/entity'
 
 @Entity()
 export default class User extends BaseEntity {
@@ -36,6 +37,8 @@ export default class User extends BaseEntity {
   @OneToMany(_ => Ticket, ticket => ticket.user)
   tickets: Ticket[]
 
+  @OneToMany(_ => Comment, comment => comment.user)
+  comments: Comment[]
   
   async setPassword(rawPassword: string) {
     const hash = await bcrypt.hash(rawPassword, 10)

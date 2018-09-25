@@ -5,6 +5,8 @@ import { snakeCase } from 'typeorm/util/StringUtils'
 import User from './users/entity'
 import Event from './events/entity'
 import Ticket from './tickets/entity'
+import Comment from './comments/entity'
+
 
 class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrategyInterface {
 
@@ -32,7 +34,8 @@ export default () =>
       entities: [
         User,
         Event,
-        Ticket
+        Ticket,
+        Comment
       ],
       synchronize: true,	//--> keep db synchronized. In production should be false and use migration instead  
       logging: true,
