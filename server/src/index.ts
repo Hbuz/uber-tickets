@@ -4,6 +4,7 @@ import { verify } from './jwt'
 import setupDb from './db'
 import LoginController from './logins/controller'
 import UserController from './users/controller'
+import EventController from './events/controller'
 
 const port = process.env.PORT || 4000
 
@@ -12,7 +13,8 @@ const app = createKoaServer({
   cors: true,
   controllers: [
     LoginController,
-    UserController
+    UserController,
+    EventController
   ],
   authorizationChecker: (action: Action) => {
     const header: string = action.request.headers.authorization

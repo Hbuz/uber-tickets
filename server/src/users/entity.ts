@@ -1,8 +1,9 @@
 import { Exclude } from 'class-transformer'
 import { IsString, IsEmail, MinLength } from 'class-validator'
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm'
 import { BaseEntity } from 'typeorm/repository/BaseEntity'
 import * as bcrypt from 'bcrypt'
+import Ticket from '../tickets/entity'
 
 @Entity()
 export default class User extends BaseEntity {
@@ -30,6 +31,12 @@ export default class User extends BaseEntity {
   @Exclude({ toPlainOnly: true })
   password: string
 
+  // this is a relation, read more about them here:
+  // http://typeorm.io/#/many-to-one-one-to-many-relations
+  @OneToMany(_ => Ticket, ticket => ticket.user, { eager: true })
+  tickets: Ticket[]
+
+  
   async setPassword(rawPassword: string) {
     const hash = await bcrypt.hash(rawPassword, 10)
     this.password = hash
