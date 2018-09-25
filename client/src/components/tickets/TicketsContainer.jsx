@@ -26,13 +26,12 @@ const TicketsContainer = withStyles(styles)(
     }
 
     handleSubmit = (event) => {
-      console.log("LO STATE: "+JSON.stringify(this.state))
       this.props.createTicket(this.props.match.params.idEvent, this.state)
       this.setState({
         price: '',
         description: ''
       })
-      event.preventDefault()
+      // event.preventDefault()
     }
 
     handleChange = name => event => {
@@ -44,12 +43,12 @@ const TicketsContainer = withStyles(styles)(
 
 
     render() {
-      console.log("PROPSSSS: "+JSON.stringify(this.props))
+      // console.log("PROPSSSS: "+JSON.stringify(this.props))
       if (!this.props.tickets) return 'Loading...'
 
       const { classes, tickets } = this.props
       const idEvent = this.props.match.params.idEvent
-      const selectedEvent = this.props.events['events'].filter(event => event.id==idEvent)  //BECASUE MISMATCH TYPE
+      const selectedEvent = this.props.events['events']? this.props.events['events'].filter(event => event.id==idEvent):[]  //BECASUE MISMATCH TYPE
       
       return (
         <div className={classes.root}>

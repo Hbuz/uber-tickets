@@ -24,9 +24,9 @@ const EventForm = withStyles(styles)(
         <form className={this.props.classes.container} noValidate autoComplete="off" onSubmit={this.props.handleSubmit} >
           <TextField
             id="standard-name"
-            label="Price"
+            label="Name"
             className={this.props.classes.textField}
-            value={this.state.price}
+            value={this.state.name}
             onChange={this.props.handleChange('name')}
             margin="normal"
           />

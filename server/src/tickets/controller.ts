@@ -12,9 +12,9 @@ export default class TicketController {
   async getTickets(@Param("eventId") eventId: number) {
     
     const event = await Event.findOne({id: eventId})  //CHECK
-    const tickets = event?await Ticket.find({where: {eventId: event.id}}) : null
-    console.log("eeeeeeeeeeeeeeeeeeeeeEEEEEEEeeeee: "+JSON.stringify(event))
-    console.log("eeeeeeeeeeeeeeeeeeeeeEEEEEEEeeeee: "+tickets)
+    const tickets = event?await Ticket.find({event: event}) : null
+    // console.log("eeeeeeeeeeeeeeeeeeeeeEEEEEEEeeeee: "+JSON.stringify(event))
+    // console.log("eeeeeeeeeeeeeeeeeeeeeEEEEEEEeeeee: "+tickets)
     // return Ticket.find(event)
     return event? tickets:[]
   }
@@ -29,7 +29,7 @@ export default class TicketController {
     const event = await Event.findOne({id: eventId})
     const user = await User.findOne({id: 1})  //CHANGE ME!!!
     
-    console.log("*************************************  BODY RECEIVED FROM ADD_EVENT: " + price, description)
+    // console.log("*************************************  BODY RECEIVED FROM ADD_EVENT: " + price, description)
     const entity = await Ticket.create({ event, user, price, description }).save()
     return entity
 
@@ -42,11 +42,11 @@ export default class TicketController {
     @Param("ticketId") ticketId: number,
     @Body() {text}  //name, desc, pic, start, end
   ) {
-    console.log("*************************************  BODY RECEIVED FROM ADD_COMMENT: " + ticketId)
+    // console.log("*************************************  BODY RECEIVED FROM ADD_COMMENT: " + ticketId)
     const ticket = await Ticket.findOne({id: ticketId})
     const user = await User.findOne({id: 1})
     
-    console.log("*************************************  BODY RECEIVED FROM ADD_COMMENT: " + text)
+    // console.log("*************************************  BODY RECEIVED FROM ADD_COMMENT: " + text)
     const entity = await Comment.create({ user, ticket, text }).save()
     return entity
 

@@ -28,7 +28,7 @@ export const loadTickets = (eventId) => (dispatch, getState) => {
 
   request(`${baseUrl}/events/${eventId}/tickets`)
     .then(response =>{
-      console.log("RESPONSE TICKETS: "+JSON.stringify(response))
+      // console.log("RESPONSE TICKETS: "+JSON.stringify(response))
      return dispatch(ticketsFetched(response.body))
     })
     .catch(console.error)

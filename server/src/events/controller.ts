@@ -16,7 +16,7 @@ export default class EventController {
   async createEvent(
     @Body() {name, description}  //name, desc, pic, start, end
   ) {
-    console.log("*************************************  BODY RECEIVED FROM ADD_EVENT: "+name +" "+description)
+    // console.log("*************************************  BODY RECEIVED FROM ADD_EVENT: "+name +" "+description)
     const entity = await Event.create({name, description}).save()
     return entity
   }

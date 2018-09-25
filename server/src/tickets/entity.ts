@@ -1,4 +1,4 @@
-import { BaseEntity, PrimaryGeneratedColumn, Column, Entity, ManyToOne, OneToMany } from 'typeorm'
+import { BaseEntity, PrimaryGeneratedColumn, Column, Entity, ManyToOne, OneToMany, CreateDateColumn } from 'typeorm'
 import User from '../users/entity'
 import Event from '../events/entity'
 import Comment from '../comments/entity'
@@ -23,9 +23,12 @@ export default class Ticket extends BaseEntity {
   @Column({ nullable: true })
   picture: string
 
-  @Column({nullable: true}) //TRY TO REMOVE
+  @Column({ nullable: true }) //TRY TO REMOVE
   price: number
 
-  @Column('text', {nullable: true})//TRY TO REMOVE
+  @Column('text', { nullable: true })//TRY TO REMOVE
   description: string
+
+  @CreateDateColumn({ type: "timestamp" })
+  createdAt: Date;
 }
