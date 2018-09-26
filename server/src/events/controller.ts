@@ -1,4 +1,4 @@
-import { JsonController, Get, Post, HttpCode, Body, Param } from 'routing-controllers'
+import { JsonController, Get, Post, HttpCode, Body, QueryParam } from 'routing-controllers'
 import Event from './entity'
 // import User from '../users/entity'
 
@@ -11,16 +11,22 @@ import Event from './entity'
 @JsonController()
 export default class EventController {
 
-  @Get('/events/:pageNumber/:pageSize')
+  @Get('/events')
   getEvents(
-    @Param("pageNumber") pageNumber: number,  //offset
-    @Param("pageSize") pageSize: number) {    //limit
-    console.log("PAGINATION PARAMS: " + pageNumber + " , " + pageSize)
+    @QueryParam("pageNumber") pageNumber: number,
+    @QueryParam("pageSize") pageSize: number
+  )
+    {
+    // console.log("PAGINATION PARAMS: " +JSON.stringify(body))
+    // console.log("PAGINATION PARAMS: " +pageNumber)
+    // console.log("PAGINATION PARAMS: " +pageSize)
     return Event.createQueryBuilder("event")
-      .skip((--pageNumber)*pageSize)
+      .skip((--pageNumber) * pageSize)
       .take(pageSize).getMany()
     // return Event.find()
   }
+  // @Param("pageNumber") pageNumber: number,  //offset
+  // @Param("pageSize") pageSize: number) {    //limit
 
 
   @Post('/events')

@@ -8,6 +8,7 @@ import SignupFormContainer from './components/signup/SignupFormContainer'
 import EventsContainer from './components/events/EventsContainer'
 import TicketsContainer from './components/tickets/TicketsContainer'
 import TicketDetails from './components/tickets/TicketDetails'
+import TicketEditFormContainer from './components/tickets/TicketEditFormContainer'
 
 class App extends Component {
   render() {
@@ -18,7 +19,8 @@ class App extends Component {
         <Route exact path="/signup" component={SignupFormContainer} />
         <Route exact path="/events" component={EventsContainer} />
         <Route exact path="/events/:idEvent/tickets" component={TicketsContainer} />
-        <Route exact path="/events/:idEvent/tickets/:idTicket" component={TicketDetails} />
+        <Route exact path="/events/:idEvent/tickets/:idTicket/details" component={TicketDetails} />
+        <Route exact path="/events/:idEvent/tickets/:idTicket/edit" component={TicketEditFormContainer} />
         <Route exact path="/" render={ () => <Redirect to="/events" /> } />
         </div>
       </Provider>

@@ -19,9 +19,16 @@ const styles = () => ({
 
 const TicketsContainer = withStyles(styles)(
   class extends Component {
-    
+
+    // constructor(props) {
+    //   super(props);
+    //   this.state = {
+    //     readOnly: true
+    //   }
+    // }
+
     componentDidMount() {
-      const {idEvent} = this.props.match.params
+      const { idEvent } = this.props.match.params
       this.props.loadTickets(idEvent)
     }
 
@@ -48,41 +55,49 @@ const TicketsContainer = withStyles(styles)(
 
       const { classes, tickets } = this.props
       const idEvent = this.props.match.params.idEvent
-      const selectedEvent = this.props.events['events']? this.props.events['events'].filter(event => event.id==idEvent):[]  //BECASUE MISMATCH TYPE
-      
+      const selectedEvent = this.props.events['events'] ? this.props.events['events'].filter(event => event.id == idEvent) : []  //BECASUE MISMATCH TYPE
+
       return (
         <div className={classes.root}>
-        {/* <h1>Ticket from {this.props.match.params.idEvent}</h1> */}
-        <h1>Ticket from {selectedEvent.name}</h1>
-        <Grid container direction="column">
-          <Grid item>
-          ticket
+          {/* <h1>Ticket from {this.props.match.params.idEvent}</h1> */}
+          <h1>Ticket from {selectedEvent.name}</h1>
+          <Grid container direction="column">
+            <Grid item>
+              ticket
             <Grid container spacing={24} justify="space-around" className={classes.container}>
-              {tickets && tickets.tickets &&
-                tickets['tickets'].map(ticket => (
-                  <Grid key={ticket.id} item xs={12} sm={6} md={4} lg={3}>
+                {tickets && tickets.tickets &&
+                  tickets['tickets'].map(ticket => (
+                    <Grid key={ticket.id} item xs={12} sm={6} md={4} lg={3}>
 
-                  <Link to={`/events/${idEvent}/tickets/${ticket.id}` }> 
-                    <Tickets
-                      {...ticket}
-                    />
-                    </Link>
+                      <Link to={`/events/${idEvent}/tickets/${ticket.id}/details`}>
+                        <Tickets
+                          {...ticket} handleSubmit={this.handleSubmit} handleChange={this.handleChange}
+                        />
+                      </Link>
 
-                  </Grid>
-                ))}
-            </Grid> 
-          </Grid>
+                    </Grid>
+                  ))}
+              </Grid>
+            </Grid>
 
-          <Grid item>
-            <TicketForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} />
-          </Grid>
-          <Grid>
-            <Link to='/events'>
+            {/* <Grid item>
+              <Link to='/events'>
+                <Button>EDIT</Button>
+              </Link>
+            </Grid> */}
+
+            <Grid item>
+              <TicketForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} />
+            </Grid>
+
+            <Grid item>
+              <Link to='/events'>
                 <Button>BACK TO EVENTS</Button>
-            </Link>
+              </Link>
+            </Grid>
+
           </Grid>
-        </Grid>
-      </div>
+        </div>
       )
     }
   }

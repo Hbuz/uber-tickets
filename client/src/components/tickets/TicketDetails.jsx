@@ -109,6 +109,11 @@ const TicketsDetails = withStyles(styles)(
           <div>
             <CommentForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} />
           </div>
+          <div>
+          <Link to={`/events/${idEvent}/tickets/${selectedTicket.id}/edit`}>
+            <Button>EDIT TICKET</Button>
+          </Link>
+          </div>
           <Link to={`/events/${idEvent}/tickets`}>
             <Button>BACK TO TICKETS</Button>
           </Link>
