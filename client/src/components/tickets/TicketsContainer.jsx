@@ -20,12 +20,12 @@ const styles = () => ({
 const TicketsContainer = withStyles(styles)(
   class extends Component {
 
-    constructor(props) {
-      super(props);
-      this.state = { 
-        readOnly: true 
-      }
-    }
+    // constructor(props) {
+    //   super(props);
+    //   this.state = {
+    //     readOnly: true
+    //   }
+    // }
 
     componentDidMount() {
       const { idEvent } = this.props.match.params
@@ -69,9 +69,9 @@ const TicketsContainer = withStyles(styles)(
                   tickets['tickets'].map(ticket => (
                     <Grid key={ticket.id} item xs={12} sm={6} md={4} lg={3}>
 
-                      <Link to={`/events/${idEvent}/tickets/${ticket.id}`}>
+                      <Link to={`/events/${idEvent}/tickets/${ticket.id}/details`}>
                         <Tickets
-                          {...ticket} handleSubmit={this.handleSubmit} handleChange={this.handleChange} inputState={this.state.readOnly} 
+                          {...ticket} handleSubmit={this.handleSubmit} handleChange={this.handleChange}
                         />
                       </Link>
 
@@ -80,14 +80,22 @@ const TicketsContainer = withStyles(styles)(
               </Grid>
             </Grid>
 
+            {/* <Grid item>
+              <Link to='/events'>
+                <Button>EDIT</Button>
+              </Link>
+            </Grid> */}
+
             <Grid item>
-              <TicketForm handleSubmit={this.handleSubmit} handleChange={this.handleChange}/>
+              <TicketForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} />
             </Grid>
-            <Grid>
+
+            <Grid item>
               <Link to='/events'>
                 <Button>BACK TO EVENTS</Button>
               </Link>
             </Grid>
+
           </Grid>
         </div>
       )

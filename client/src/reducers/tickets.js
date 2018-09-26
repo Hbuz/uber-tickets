@@ -1,4 +1,4 @@
-import { TICKETS_FETCHED, ADD_TICKET } from '../actions/tickets'
+import { TICKETS_FETCHED, ADD_TICKET, TICKET_EDIT } from '../actions/tickets'
 
 
 export default function (state = [], { type, payload }) {
@@ -14,6 +14,19 @@ export default function (state = [], { type, payload }) {
       return {
         ...state,
         tickets: [...state.tickets, payload]
+      }
+      case TICKET_EDIT:
+      return {
+        // ...state.tickets,
+        // [payload.id]: payload
+        ...state,
+         // optional 2nd arg in callback is the array index
+         tickets: state.tickets.map(ticket => {
+           if (ticket.id === payload.id) {
+             return payload
+           }
+           return ticket
+         })
       }
     default:
       return state

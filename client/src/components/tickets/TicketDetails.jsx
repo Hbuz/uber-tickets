@@ -110,8 +110,8 @@ const TicketsDetails = withStyles(styles)(
             <CommentForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} />
           </div>
           <div>
-          <Link to={`/events/${idEvent}/tickets/${selectedTicket.id}`}>
-            <Button>EDIT</Button>
+          <Link to={`/events/${idEvent}/tickets/${selectedTicket.id}/edit`}>
+            <Button>EDIT TICKET</Button>
           </Link>
           </div>
           <Link to={`/events/${idEvent}/tickets`}>

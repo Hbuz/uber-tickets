@@ -5,7 +5,7 @@ export default class LoginForm extends PureComponent {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    this.props.handleSubmit(this.state) //this is passed from the container
+    this.props.handleSubmit(this.state) //this is passed from the container?
   }
 
   handleChange = (event) => {
