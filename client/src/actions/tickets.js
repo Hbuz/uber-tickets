@@ -23,12 +23,12 @@ const addComment = comment => ({
 
 
 export const loadTickets = (eventId) => (dispatch, getState) => {
-  // console.log("ssssssssssssssssssssssssssssss   " + JSON.stringify(getState()))
+  console.log("ssssssssssssssssssssssssssssss   " + JSON.stringify(getState()))
   // if (getState().events.lenght > 0) return  //Add conditions for tickets
 
   request(`${baseUrl}/events/${eventId}/tickets`)
     .then(response =>{
-      // console.log("RESPONSE TICKETS: "+JSON.stringify(response))
+      console.log("RESPONSE TICKETS: "+JSON.stringify(response))
      return dispatch(ticketsFetched(response.body))
     })
     .catch(console.error)

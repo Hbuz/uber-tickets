@@ -105,9 +105,7 @@ const EventsContainer = withStyles(styles)(
             {events && events.events &&
               events['events'].length === 3 &&  //CHANGE ME!!!
               <Grid item>
-                {/* <Link to={`/events/`}> */}
                 <button type="submit" onClick={() => this.loadNextEvents(eventPage)}>NEXT EVENTS</button>
-                {/* </Link> */}
               </Grid>
             }
 

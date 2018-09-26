@@ -22,14 +22,18 @@ export const loadEvents = (eventPage) => (dispatch, getState) => {
   if (getState().events.lenght > 0) return
 
   const pageNumber = eventPage
-  const pageSize = 3
+  const pageSize = 3  //CHANGE ME
 
-  request(`${baseUrl}/events/${pageNumber}/${pageSize}`)
-    .then(response =>{
+  // request(`${baseUrl}/events/`)
+  request
+    .get(`${baseUrl}/events`)
+    .query({ pageNumber: pageNumber })
+    .query({ pageSize: pageSize })
+    .then(response => {
       console.log("RESPONSE EVENT QUERY   " + JSON.stringify(response))
       return dispatch(eventsFetched(response.body))
     }
-  )
+    )
     .catch(console.error)
 }
 

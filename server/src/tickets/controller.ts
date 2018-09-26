@@ -10,11 +10,11 @@ export default class TicketController {
 
   @Get('/events/:eventId/tickets')
   async getTickets(@Param("eventId") eventId: number) {
-    
+    console.log("eeeeeeeeeeeeeeeeeeeeeEEEEEEEeeeee: "+eventId)
     const event = await Event.findOne({id: eventId})  //CHECK
     const tickets = event?await Ticket.find({event: event}) : null
-    // console.log("eeeeeeeeeeeeeeeeeeeeeEEEEEEEeeeee: "+JSON.stringify(event))
-    // console.log("eeeeeeeeeeeeeeeeeeeeeEEEEEEEeeeee: "+tickets)
+    console.log("eeeeeeeeeeeeeeeeeeeeeEEEEEEEeeeee: "+JSON.stringify(event))
+    console.log("eeeeeeeeeeeeeeeeeeeeeEEEEEEEeeeee: "+tickets)
     // return Ticket.find(event)
     return event? tickets:[]
   }
