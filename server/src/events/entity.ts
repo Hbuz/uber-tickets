@@ -1,6 +1,7 @@
 import { BaseEntity, PrimaryGeneratedColumn, Column, Entity, OneToMany } from 'typeorm'
 import Ticket from '../tickets/entity'
 
+
 @Entity()
 export default class Event extends BaseEntity {
 

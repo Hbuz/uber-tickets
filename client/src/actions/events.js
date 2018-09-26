@@ -16,12 +16,20 @@ const addEvent = event => ({
 })
 
 
-export const loadEvents = () => (dispatch, getState) => {
-  // console.log("ssssssssssssssssssssssssssssss   " + JSON.stringify(getState()))
+export const loadEvents = (eventPage) => (dispatch, getState) => {
+  console.log("ssssssssssssssssssssssssssssss   " + JSON.stringify(getState()))
+  console.log("EVENTPAGE:    " + eventPage)
   if (getState().events.lenght > 0) return
 
-  request(`${baseUrl}/events`)
-    .then(response =>dispatch(eventsFetched(response.body)))
+  const pageNumber = eventPage
+  const pageSize = 3
+
+  request(`${baseUrl}/events/${pageNumber}/${pageSize}`)
+    .then(response =>{
+      console.log("RESPONSE EVENT QUERY   " + JSON.stringify(response))
+      return dispatch(eventsFetched(response.body))
+    }
+  )
     .catch(console.error)
 }
 
@@ -34,6 +42,7 @@ export const createEvent = (name, description) => (dispatch, getState) => {
   request
     .post(`${baseUrl}/events`)
     // .set('Authorization', `Bearer ${jwt}`)
+    // .attach('image1', imgUrl)
     .send(name, description)
     .then(result => dispatch(addEvent(result.body)))
     .catch(err => console.error(err))

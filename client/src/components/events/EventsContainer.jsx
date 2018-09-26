@@ -19,8 +19,13 @@ const styles = () => ({
 const EventsContainer = withStyles(styles)(
   class extends Component {
 
+    constructor(props) {
+      super(props);
+      this.state = { eventPage: 1 };
+    }
+
     componentDidMount() {
-      this.props.loadEvents()
+      this.props.loadEvents(1)
     }
 
     handleSubmit = (event) => {
@@ -38,6 +43,22 @@ const EventsContainer = withStyles(styles)(
       })
     }
 
+    loadNextEvents = (currentPage) => {
+      this.setState({
+        eventPage: ++currentPage
+      })
+      console.log("CURRENT PAGE: " + currentPage)
+      this.props.loadEvents(currentPage)
+    }
+
+    loadPreviousEvents = (currentPage) => {
+      this.setState({
+        eventPage: --currentPage
+      })
+      console.log("CURRENT PAGE: " + currentPage)
+      this.props.loadEvents(currentPage)
+    }
+
     // onClickImg = event => {
     //   <Link to="/tickets" />
     // }
@@ -45,9 +66,11 @@ const EventsContainer = withStyles(styles)(
     render() {
       if (!this.props.events) return 'Loading...'
 
-      // console.log("EVENTI: " + JSON.stringify(this.props.events))
+      console.log("EVENTI: " + JSON.stringify(this.props))
+      console.log("EVENTI: " + JSON.stringify(this.state))
 
       const { classes, events } = this.props
+      const eventPage = this.state.eventPage
 
       // console.log("EVENTddddddddddddddI: " + events['events'])
 
@@ -61,16 +84,32 @@ const EventsContainer = withStyles(styles)(
                   events['events'].map(event => (
                     <Grid key={event.id} item xs={12} sm={6} md={4} lg={3}>
 
-                    <Link to={`/events/${event.id}/tickets`}> 
-                      <Events
-                        {...event}
-                      />
+                      <Link to={`/events/${event.id}/tickets`}>
+                        <Events
+                          {...event}
+                        />
                       </Link>
 
                     </Grid>
                   ))}
               </Grid>
             </Grid>
+
+            {
+              eventPage && eventPage > 1 &&
+              <Grid item>
+                <button type="submit" onClick={() => this.loadPreviousEvents(eventPage)}>PREVIOUS EVENTS</button>
+              </Grid>
+            }
+
+            {events && events.events &&
+              events['events'].length === 3 &&  //CHANGE ME!!!
+              <Grid item>
+                {/* <Link to={`/events/`}> */}
+                <button type="submit" onClick={() => this.loadNextEvents(eventPage)}>NEXT EVENTS</button>
+                {/* </Link> */}
+              </Grid>
+            }
 
             <Grid item>
               <EventForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} />
@@ -85,7 +124,8 @@ const EventsContainer = withStyles(styles)(
 // const mapStateToProps = ({ events }) => ({ events })
 const mapStateToProps = (state) => {
   return {
-    events: state.events
+    events: state.events,
+    eventPage: state.eventPage
   }
 }
 
