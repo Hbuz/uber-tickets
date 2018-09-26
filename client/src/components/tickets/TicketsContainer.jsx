@@ -60,7 +60,8 @@ const TicketsContainer = withStyles(styles)(
       return (
         <div className={classes.root}>
           {/* <h1>Ticket from {this.props.match.params.idEvent}</h1> */}
-          <h1>Ticket from {selectedEvent.name}</h1>
+          {/* <h1>Ticket from {selectedEvent.name}</h1> */}
+          <h1>Ticket from {tickets && tickets.tickets && tickets['tickets'][0].event.name}</h1>
           <Grid container direction="column">
             <Grid item>
               ticket

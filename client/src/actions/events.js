@@ -17,8 +17,8 @@ const addEvent = event => ({
 
 
 export const loadEvents = (eventPage) => (dispatch, getState) => {
-  console.log("ssssssssssssssssssssssssssssss   " + JSON.stringify(getState()))
-  console.log("EVENTPAGE:    " + eventPage)
+  // console.log("ssssssssssssssssssssssssssssss   " + JSON.stringify(getState()))
+  // console.log("EVENTPAGE:    " + eventPage)
   if (getState().events.lenght > 0) return
 
   const pageNumber = eventPage
@@ -38,16 +38,17 @@ export const loadEvents = (eventPage) => (dispatch, getState) => {
 }
 
 
-export const createEvent = (name, description) => (dispatch, getState) => {
+export const createEvent = (event) => (dispatch, getState) => {
   const state = getState()
   // const jwt = state.currentUser.jwt
   // if (isExpired(jwt)) return dispatch(logout())
-
+  // console.log("CREATE EVENT:    " + name+" "+ description+" "+ startDate+" "+ endDate)
+  console.log("CREATE EVENT:    " + JSON.stringify(event))
   request
     .post(`${baseUrl}/events`)
     // .set('Authorization', `Bearer ${jwt}`)
     // .attach('image1', imgUrl)
-    .send(name, description)
+    .send(event)
     .then(result => dispatch(addEvent(result.body)))
     .catch(err => console.error(err))
 }

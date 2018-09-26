@@ -4,7 +4,11 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.1.1",
+    "js-datepicker": "^3.3.2",
+    "moment": "^2.22.2",
     "react": "^16.5.2",
+    "react-date-picker": "^6.12.1",
+    "react-datepicker": "^1.6.0",
     "react-dom": "^16.5.2",
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",

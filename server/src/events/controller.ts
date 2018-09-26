@@ -32,10 +32,10 @@ export default class EventController {
   @Post('/events')
   @HttpCode(201)
   async createEvent(
-    @Body() { name, description }  //name, desc, pic, start, end
+    @Body() { name, description, startDate, endDate }  //name, desc, pic, start, end
   ) {
     // console.log("*************************************  BODY RECEIVED FROM ADD_EVENT: "+name +" "+description)
-    const entity = await Event.create({ name, description }).save()
+    const entity = await Event.create({ name, description, startDate, endDate }).save()
     return entity
   }
   // @Post('/events')

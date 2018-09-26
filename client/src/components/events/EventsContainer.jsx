@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid'
 import Events from './Events'
 import EventForm from './EventForm'
 import { loadEvents, createEvent } from '../../actions/events'
+import moment from 'moment'
 
 const styles = () => ({
   root: {
@@ -32,15 +33,24 @@ const EventsContainer = withStyles(styles)(
       this.props.createEvent(this.state)
       this.setState({
         name: '',
-        description: ''
+        description: '',
+        startDate: '',
+        endDate: ''
       })
-      // event.preventDefault()
+      event.preventDefault()
     }
 
     handleChange = name => event => {
       this.setState({
-        [name]: event.target.value,
+        [name]: event.target.value
       })
+    }
+
+    onChange = name => date => {
+      console.log("-----------------DATE: "+name +"     "+ date)
+      const parsedDate = date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear()
+      console.log(parsedDate)
+      this.setState({ [name]: parsedDate })
     }
 
     loadNextEvents = (currentPage) => {
@@ -110,7 +120,7 @@ const EventsContainer = withStyles(styles)(
             }
 
             <Grid item>
-              <EventForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} />
+              <EventForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} onChange={this.onChange} />
             </Grid>
           </Grid>
         </div>
