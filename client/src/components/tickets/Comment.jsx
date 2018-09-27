@@ -3,7 +3,6 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography';
 
 export default function Comment(props) {
-  // console.log(JSON.stringify(props))
   return (<div>
 
     <Grid container spacing={16}>

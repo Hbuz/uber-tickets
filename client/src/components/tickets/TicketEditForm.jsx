@@ -9,18 +9,9 @@ export default class TicketEditForm extends PureComponent {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    this.props.handleSubmit(this.state) //this is passed from the container
+    this.props.handleSubmit(this.state)
   }
 
-  // handleChange = (event) => {
-  //   const { name, value } = event.target
-  //   this.setState({
-  //     [name]: value
-  //   })
-  // }
-
-
-  //CHANGE TEXFILED STYLE!!!
   render() {
     return (
       <div>
@@ -63,7 +54,7 @@ export default class TicketEditForm extends PureComponent {
         </form>
 
         {this.props.selectedTicket &&
-          <Link to={`/events/${this.props.selectedTicket.event.id}/tickets`}>
+          <Link to={`/events/${this.props.selectedTicket.event.id}/tickets/${this.props.selectedTicket.id}/details`}>
             <Button>CANCEL</Button>
           </Link>
         }

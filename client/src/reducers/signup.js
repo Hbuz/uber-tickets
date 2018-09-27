@@ -7,7 +7,6 @@ export default function (state = {}, { type, payload }) {
         success: true
       }
     case ADD_USER:
-      // console.log("INSIDE ADD_USER REDUCER: " + JSON.stringify(payload))
       return {
         ...state,
         success: true,

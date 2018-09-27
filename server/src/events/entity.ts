@@ -23,8 +23,6 @@ export default class Event extends BaseEntity {
   @Column({ nullable: true })
   endDate: string
 
-  // this is a relation, read more about them here:
-  // http://typeorm.io/#/many-to-one-one-to-many-relations
   @OneToMany(_ => Ticket, ticket => ticket.event)
   tickets: Ticket[]
 }

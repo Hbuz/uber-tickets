@@ -5,7 +5,7 @@ import User from './entity'
 export default class UserController {
 
   @Post('/users')
-  async createUser( //signup
+  async createUser(
     @Body() user: User
   ) {
     const { password, ...rest } = user

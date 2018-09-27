@@ -15,9 +15,6 @@ import Typography from '@material-ui/core/Typography'
 const styles = () => ({
   root: {
     flexGrow: 1,
-    // ...theme.mixins.gutters(),
-    // paddingTop: theme.spacing.unit * 2,
-    // paddingBottom: theme.spacing.unit * 2,
   },
   container: {
     padding: 24,
@@ -50,16 +47,13 @@ const EventsContainer = withStyles(styles)(
     }
 
     handleChange = name => event => {
-      // console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH: "+name+ " "+JSON.stringify(event.target.value))
       this.setState({
         [name]: event.target.value
       })
     }
 
     onChange = name => date => {
-      console.log("-----------------DATE: " + name + "     " + date)
       const parsedDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear()
-      console.log(parsedDate)
       this.setState({ [name]: parsedDate })
     }
 
@@ -81,89 +75,98 @@ const EventsContainer = withStyles(styles)(
     render() {
       if (!this.props.events) return 'Loading...'
 
-      // console.log("EVENTI: " + JSON.stringify(this.props))
-      // console.log("EVENTI: " + JSON.stringify(this.state))
-
-      console.log("TODAY MILLIS: " + todayMillis)
-
       const { classes, events } = this.props
       const eventPage = this.state.eventPage
-
-      // console.log("EVENTddddddddddddddI: " + events['events'])
 
       return (
 
         <Paper className={classes.root} elevation={1}>
 
-          {/* <div className={classes.root}> */}
-
-          <Typography variant="headline" component="h3">Events</Typography>
-
-          {this.props.events && this.props.events['events'] && this.props.events['events'].length > 0 ? (
-
-            <Grid container direction="column" alignItems="center">
-              <Grid item>
-
-                <Grid container spacing={24} justify="space-around" className={classes.container}>
-                  {events && events.events &&
-                    events['events'].map(event => (
-
-                      <Grid key={event.id} item xs={12} sm={6} md={4} lg={3}>
-                        {/* UNCOMMENT FOR CHECK END DATE FEATURE */}
-                        {/* {parsedEventDate(event.endDate) > todayMillis && */}
-                        <Link to={`/events/${event.id}/tickets`}>
-                          <Events
-                            {...event}
-                          />
-                        </Link>
-                        {/* } */}
-                      </Grid>
-
-                    ))}
-                </Grid>
-
-              </Grid>
-
-              <Grid item>
-                <h3>Page {eventPage}</h3>
-              </Grid>
-
-              {
-                eventPage && eventPage > 1 &&
-                <Grid item>
-                  <Button type="submit" color="primary" onClick={() => this.loadPreviousEvents(eventPage)}>PREVIOUS EVENTS</Button>
-                </Grid>
-              }
-
-              {events && events.events &&
-                events['events'].length === limit &&
-                <Grid item>
-                  <Button type="submit" color="primary" onClick={() => this.loadNextEvents(eventPage)}>NEXT EVENTS</Button>
-                </Grid>
-              }
-
-              <Grid item>
-                {!this.props.currentUser && this.state.name === '' &&
-                  <span style={{ color: 'red' }}>You have to login to add event!</span>}
-                <EventForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} onChange={this.onChange} />
-              </Grid>
+          <Grid container direction="column" alignItems="center">
+            <Grid item>
+              <Typography variant="display3" component="h3">Events</Typography>
             </Grid>
-          ) :
-            <h1>No events found!</h1>
-          }
-          {/* </div> */}
 
+            <Grid item>
+              {this.props.events && this.props.events['events'] && this.props.events['events'].length > 0 ? (
+
+                <Grid container direction="column" alignItems="center">
+                  <Grid item>
+
+                    <Grid container spacing={24} justify="space-around" className={classes.container}>
+                      {events && events.events &&
+                        events['events'].map(event => (
+
+                          <Grid key={event.id} item xs={12} sm={6} md={4} lg={3}>
+                            {/* CHANGE ME: UNCOMMENT FOR CHECK END DATE FEATURE */}
+                            {/* {parsedEventDate(event.endDate) > todayMillis && */}
+                              <Link to={`/events/${event.id}/tickets`}>
+                                <Events {...event} />
+                              </Link>
+                            {/* } */}
+                          </Grid>
+
+                        ))}
+                    </Grid>
+
+                  </Grid>
+
+                  <Grid item>
+                    <h3>Page {eventPage}</h3>
+                  </Grid>
+
+                  {
+                    eventPage && eventPage > 1 &&
+                    <Grid item>
+                      <Button type="submit" color="primary" onClick={() => this.loadPreviousEvents(eventPage)}>PREVIOUS EVENTS</Button>
+                    </Grid>
+                  }
+
+                  {events && events.events &&
+                    events['events'].length === limit &&
+                    <Grid item>
+                      <Button type="submit" color="primary" onClick={() => this.loadNextEvents(eventPage)}>NEXT EVENTS</Button>
+                    </Grid>
+                  }
+
+                  <Grid item>
+                    <Grid container>
+                      <Grid item>
+                        {!this.props.currentUser && this.state.name === '' &&
+                          <span style={{ color: 'red' }}>You have to login to add event!</span>}
+                        <EventForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} onChange={this.onChange} />
+                      </Grid>
+                      <Grid item>
+                        <Grid container></Grid>
+                        {this.state.startDate &&
+                          <Grid item>
+                            Selected start date: {this.state.startDate}
+                          </Grid>
+                        }
+                        {this.state.endDate &&
+                          <Grid item>
+                            Selected end date: {this.state.endDate}
+                          </Grid>
+                        }
+                      </Grid>
+                    </Grid>
+
+                  </Grid>
+                </Grid>
+              ) :
+                <h1>No events found!</h1>
+              }
+            </Grid>
+          </Grid>
         </Paper>
       )
     }
   }
 )
 
-// const mapStateToProps = ({ events }) => ({ events })
 const mapStateToProps = (state) => {
   return {
     events: state.events,
-    // eventPage: state.eventPage,
     currentUser: state.currentUser
   }
 }
