@@ -25,13 +25,13 @@ export default class TicketController {
   @HttpCode(201)
   async createTicket(
     @Param("eventId") eventId: number,
-    @Body() { price, description }  //name, desc, pic, start, end
+    @Body() { price, description, picture }  //name, desc, pic, start, end
   ) {
     const event = await Event.findOne({ id: eventId })
     const user = await User.findOne({ id: 1 })  //CHANGE ME!!!
 
     // console.log("*************************************  BODY RECEIVED FROM ADD_EVENT: " + price, description)
-    const entity = await Ticket.create({ event, user, price, description }).save()
+    const entity = await Ticket.create({ event, user, price, description, picture }).save()
     return entity
 
   }

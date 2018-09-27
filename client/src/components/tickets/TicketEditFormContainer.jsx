@@ -36,7 +36,8 @@ const TicketEditFormContainer = withStyles(styles)(class extends PureComponent {
       description: ''
     })
     // <Link to='/events/${this.props.selectedTicket.event.id}/tickets'>
-    this.props.history.push(`/events/${this.props.match.params.idEvent}/tickets`)
+    this.props.currentUser &&
+      this.props.history.push(`/events/${this.props.match.params.idEvent}/tickets`)
   }
 
   handleChange = name => event => {
@@ -53,7 +54,7 @@ const TicketEditFormContainer = withStyles(styles)(class extends PureComponent {
 
   selectTicket = (tickets) => {
     console.log("TICKETS??? " + JSON.stringify(tickets) + "   params: " + JSON.stringify(this.props.match.params))
-    const ticketFound = tickets.filter((ticket) => ticket.id == this.props.match.params.idTicket)[0]
+    const ticketFound = tickets && tickets.filter((ticket) => ticket.id == this.props.match.params.idTicket)[0]
     console.log("FOUND " + JSON.stringify(ticketFound))
     return ticketFound
   }
@@ -65,14 +66,22 @@ const TicketEditFormContainer = withStyles(styles)(class extends PureComponent {
 
     return (
       <div>
-        <div><h3>Editing ticket N.{selectedTicket.id} of {selectedTicket.event.name}</h3></div>
-        <div>
-          <TicketEditForm handleSubmit={this.handleSubmit}
-            handleChange={this.handleChange}
-            classes={classes}
-            selectedTicket={selectedTicket}
-          />
-        </div>
+        {selectedTicket &&
+          <div>
+            <div><h3>Editing ticket N.{selectedTicket.id} of {selectedTicket.event.name}</h3></div>
+            <div>
+              {!this.props.currentUser && this.state.description === '' &&
+                <span style={{ color: 'red' }}>You have to login to edit a ticket!</span>}
+              {this.props.currentUser && this.props.currentUser.id === selectedTicket.user.id &&
+                <span style={{ color: 'red' }}>You have to be the author of the ticket!</span>}
+              <TicketEditForm handleSubmit={this.handleSubmit}
+                handleChange={this.handleChange}
+                classes={classes}
+                selectedTicket={selectedTicket}
+              />
+            </div>
+          </div>
+        }
       </div>
     )
   }
@@ -80,7 +89,8 @@ const TicketEditFormContainer = withStyles(styles)(class extends PureComponent {
 
 const mapStateToProps = function (state) {
   return {
-    tickets: state.tickets
+    tickets: state.tickets,
+    currentUser: state.currentUser
   }
 }
 

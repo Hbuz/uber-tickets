@@ -5,15 +5,22 @@ import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Events from './Events'
 import EventForm from './EventForm'
-import { loadEvents, createEvent } from '../../actions/events'
+import { loadEvents, createEvent, limit } from '../../actions/events'
 import { logout } from '../../actions/auth'
 import { todayMillis, parsedEventDate } from '../../lib/utils'
+import Button from '@material-ui/core/Button'
+import Paper from '@material-ui/core/Paper'
+import Typography from '@material-ui/core/Typography'
 
 const styles = () => ({
   root: {
     flexGrow: 1,
+    // ...theme.mixins.gutters(),
+    // paddingTop: theme.spacing.unit * 2,
+    // paddingBottom: theme.spacing.unit * 2,
   },
   container: {
+    padding: 24,
     flexWrap: 'wrap'
   }
 })
@@ -36,12 +43,14 @@ const EventsContainer = withStyles(styles)(
       this.setState({
         name: '',
         description: '',
+        picture: '',
         startDate: '',
         endDate: ''
       })
     }
 
     handleChange = name => event => {
+      // console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH: "+name+ " "+JSON.stringify(event.target.value))
       this.setState({
         [name]: event.target.value
       })
@@ -58,7 +67,6 @@ const EventsContainer = withStyles(styles)(
       this.setState({
         eventPage: ++currentPage
       })
-      console.log("CURRENT PAGE: " + currentPage)
       this.props.loadEvents(currentPage)
     }
 
@@ -66,13 +74,9 @@ const EventsContainer = withStyles(styles)(
       this.setState({
         eventPage: --currentPage
       })
-      console.log("CURRENT PAGE: " + currentPage)
       this.props.loadEvents(currentPage)
     }
 
-    // onClickImg = event => {
-    //   <Link to="/tickets" />
-    // }
 
     render() {
       if (!this.props.events) return 'Loading...'
@@ -88,56 +92,68 @@ const EventsContainer = withStyles(styles)(
       // console.log("EVENTddddddddddddddI: " + events['events'])
 
       return (
-        <div className={classes.root}>
-          {/* {this.props.currentUser &&
-            <button onClick={() => this.props.logout()}>LOGOUT</button>
-          } */}
-          <h1>Events</h1>
-          <Grid container direction="column">
-            <Grid item>
-              <Grid container spacing={24} justify="space-around" className={classes.container}>
-                {events && events.events &&
-                  events['events'].map(event => (
-                    <Grid key={event.id} item xs={12} sm={6} md={4} lg={3}>
 
-                      {/* UNCOMMENT FOR CHECK END DATE FEATURE */}
-                      {/* {parsedEventDate(event.endDate) > todayMillis && */}
+        <Paper className={classes.root} elevation={1}>
+
+          {/* <div className={classes.root}> */}
+
+          <Typography variant="headline" component="h3">Events</Typography>
+
+          {this.props.events && this.props.events['events'] && this.props.events['events'].length > 0 ? (
+
+            <Grid container direction="column" alignItems="center">
+              <Grid item>
+
+                <Grid container spacing={24} justify="space-around" className={classes.container}>
+                  {events && events.events &&
+                    events['events'].map(event => (
+
+                      <Grid key={event.id} item xs={12} sm={6} md={4} lg={3}>
+                        {/* UNCOMMENT FOR CHECK END DATE FEATURE */}
+                        {/* {parsedEventDate(event.endDate) > todayMillis && */}
                         <Link to={`/events/${event.id}/tickets`}>
                           <Events
                             {...event}
                           />
                         </Link>
-                      {/* } */}
+                        {/* } */}
+                      </Grid>
 
+                    ))}
+                </Grid>
 
-                    </Grid>
-                  ))}
               </Grid>
-            </Grid>
 
-            <Grid item>
-              <h3>Page {eventPage}</h3>
-            </Grid>
-
-            {
-              eventPage && eventPage > 1 &&
               <Grid item>
-                <button type="submit" onClick={() => this.loadPreviousEvents(eventPage)}>PREVIOUS EVENTS</button>
+                <h3>Page {eventPage}</h3>
               </Grid>
-            }
 
-            {events && events.events &&
-              events['events'].length === 3 &&  //CHANGE ME!!!
+              {
+                eventPage && eventPage > 1 &&
+                <Grid item>
+                  <Button type="submit" color="primary" onClick={() => this.loadPreviousEvents(eventPage)}>PREVIOUS EVENTS</Button>
+                </Grid>
+              }
+
+              {events && events.events &&
+                events['events'].length === limit &&
+                <Grid item>
+                  <Button type="submit" color="primary" onClick={() => this.loadNextEvents(eventPage)}>NEXT EVENTS</Button>
+                </Grid>
+              }
+
               <Grid item>
-                <button type="submit" onClick={() => this.loadNextEvents(eventPage)}>NEXT EVENTS</button>
+                {!this.props.currentUser && this.state.name === '' &&
+                  <span style={{ color: 'red' }}>You have to login to add event!</span>}
+                <EventForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} onChange={this.onChange} />
               </Grid>
-            }
-
-            <Grid item>
-              <EventForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} onChange={this.onChange} />
             </Grid>
-          </Grid>
-        </div>
+          ) :
+            <h1>No events found!</h1>
+          }
+          {/* </div> */}
+
+        </Paper>
       )
     }
   }

@@ -6,6 +6,7 @@ export const EVENTS_FETCHED = 'EVENTS_FETCHED'
 export const ADD_EVENT = 'ADD_EVENT'
 
 const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:4000'
+export const limit = process.env.LIMIT_EVENTS || 9
 
 const eventsFetched = events => ({
   type: EVENTS_FETCHED,
@@ -24,7 +25,7 @@ export const loadEvents = (eventPage) => (dispatch, getState) => {
   if (getState().events.lenght > 0) return
 
   const pageNumber = eventPage
-  const pageSize = 3  //CHANGE ME
+  const pageSize = limit
 
   // request(`${baseUrl}/events/`)
   request
@@ -46,12 +47,10 @@ export const createEvent = (event) => (dispatch, getState) => {
   const jwt = state.currentUser.jwt
   if (isExpired(jwt)) return dispatch(logout())
 
-  // console.log("CREATE EVENT:    " + name+" "+ description+" "+ startDate+" "+ endDate)
   console.log("CREATE EVENT:    " + JSON.stringify(event))
   request
     .post(`${baseUrl}/events`)
     .set('Authorization', `Bearer ${jwt}`)
-    // .attach('image1', imgUrl)
     .send(event)
     .then(result => dispatch(addEvent(result.body)))
     .catch(err => console.error(err))

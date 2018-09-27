@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import LoginForm from './LoginForm'
 import { login } from '../../actions/auth'
 import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
 
 class LoginFormContainer extends Component {
   state = { email: '', password: '' }
@@ -26,21 +27,26 @@ class LoginFormContainer extends Component {
     )
     return (
       <div>
-        <div>
-          LOGIN!
-        {/* <LoginForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} values={this.state} /> */}
-          <LoginForm handleSubmit={this.handleSubmit} />
-          {this.props.error &&
-            <span style={{ color: 'red' }}>{this.props.error}</span>}
-        </div>
-        <div>
-          <Link to='/signup'>SIGNUP!</Link> 
-        </div>
-        <div>
-          <Link to="/events">
-            <Button>VIEW EVENTS</Button>
-          </Link>
-        </div>
+        <Grid container direction="column" spacing={32}>
+          <Grid item>
+            <Grid container direction="column" spacing={24}>
+              <Grid item>
+                LOGIN!
+          </Grid>
+              <Grid item>
+                {/* <LoginForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} values={this.state} /> */}
+                <LoginForm handleSubmit={this.handleSubmit} />
+                {this.props.error &&
+                  <span style={{ color: 'red' }}>{this.props.error}</span>}
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <Link to="/events">
+              <Button>VIEW EVENTS</Button>
+            </Link>
+          </Grid>
+        </Grid>
       </div>
     )
   }

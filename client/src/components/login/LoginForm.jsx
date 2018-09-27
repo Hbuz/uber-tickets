@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react'
+import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
 
 export default class LoginForm extends PureComponent {
   state = {}
@@ -19,22 +21,33 @@ export default class LoginForm extends PureComponent {
   render() {
     return (
       <div>
+
         <form onSubmit={this.handleSubmit}>
-          <label>
-            Email
+          <Grid container direction="column" spacing={8}>
+
+            <Grid item>
+              <label>
+                Email
             <input type="email" name="email" value={
-              this.state.email || ''
-            } onChange={this.handleChange} />
-          </label >
+                  this.state.email || ''
+                } onChange={this.handleChange} />
+              </label >
+            </Grid>
 
-          <label>
-            Password
+            <Grid item>
+              <label>
+                Password
             <input type="password" name="password" value={
-              this.state.password || ''
-            } onChange={this.handleChange} />
-          </label>
+                  this.state.password || ''
+                } onChange={this.handleChange} />
+              </label>
+            </Grid>
 
-          <button type="submit">Login</button>
+            <Grid>
+              <Button type="submit">Login</Button>
+            </Grid>
+
+          </Grid>
         </form>
       </div>)
   }

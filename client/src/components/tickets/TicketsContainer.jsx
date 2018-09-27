@@ -5,15 +5,25 @@ import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Tickets from './Tickets'
-import TicketForm from './TicketForm'
+import TicketEditForm from './TicketEditForm'
 import { loadTickets, createTicket } from '../../actions/tickets'
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 const styles = () => ({
   root: {
     flexGrow: 1,
+    padding: 28,
   },
   container: {
     flexWrap: 'wrap'
+  },
+  table: {
+    minWidth: 700,
   }
 })
 
@@ -37,7 +47,8 @@ const TicketsContainer = withStyles(styles)(
       this.props.createTicket(this.props.match.params.idEvent, this.state)
       this.setState({
         price: '',
-        description: ''
+        description: '',
+        picture: ''
       })
     }
 
@@ -59,40 +70,65 @@ const TicketsContainer = withStyles(styles)(
 
       return (
         <div className={classes.root}>
-          {/* <h1>Ticket from {this.props.match.params.idEvent}</h1> */}
-          {/* <h1>Ticket from {selectedEvent.name}</h1> */}
-          <h1>Ticket from {tickets && 
-            tickets.tickets && 
-            tickets['tickets'][0]&& 
-            tickets['tickets'][0].event &&
-            tickets['tickets'][0].event.name}</h1>
-          <Grid container direction="column">
+          <Grid container direction="column" spacing={24} alignItems="flex-start" >
             <Grid item>
-              ticket
-            <Grid container spacing={24} justify="space-around" className={classes.container}>
-                {tickets && tickets.tickets &&
-                  tickets['tickets'].map(ticket => (
-                    <Grid key={ticket.id} item xs={12} sm={6} md={4} lg={3}>
+              <h1>Event: {tickets &&
+                tickets.tickets &&
+                tickets['tickets'][0] &&
+                tickets['tickets'][0].event &&
+                tickets['tickets'][0].event.name} event</h1>
+            </Grid>
+            <Grid item>
+              <Grid container direction="column">
+                <Grid item>
 
-                      <Link to={`/events/${idEvent}/tickets/${ticket.id}/details`}>
-                        <Tickets
-                          {...ticket} handleSubmit={this.handleSubmit} handleChange={this.handleChange}
-                        />
-                      </Link>
+                  {/* <Grid container direction="column" spacing={24} justify="space-around" className={classes.container}>
+                    {tickets && tickets.tickets &&
+                      tickets['tickets'].map(ticket => (
+                        <Grid key={ticket.id} item >
+                          <Link to={`/events/${idEvent}/tickets/${ticket.id}/details`}>
+                            <Tickets
+                              {...ticket} handleSubmit={this.handleSubmit} handleChange={this.handleChange}
+                            />
+                          </Link>
+                        </Grid>
+                      ))}
+                  </Grid> */}
 
-                    </Grid>
-                  ))}
+                  <Paper className={classes.root}>
+                    <Table className={classes.table}>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Picture</TableCell>
+                          <TableCell numeric>Price</TableCell>
+                          <TableCell>Description</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {tickets && tickets.tickets &&
+                          tickets['tickets'].map(ticket => {
+                            return (
+                              // <TableRow key={ticket.id}>
+                              <div>
+                                <Link to={`/events/${idEvent}/tickets/${ticket.id}/details`}>
+                                  <Tickets
+                                    {...ticket} handleSubmit={this.handleSubmit} handleChange={this.handleChange}
+                                  />
+                                </Link>
+                              </div>
+                              // </TableRow>
+                            )
+                          })}
+                      </TableBody>
+                    </Table>
+                  </Paper>
+                </Grid>
               </Grid>
             </Grid>
-
-            {/* <Grid item>
-              <Link to='/events'>
-                <Button>EDIT</Button>
-              </Link>
-            </Grid> */}
-
             <Grid item>
-              <TicketForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} />
+            {!this.props.currentUser && this.state && this.state.description === '' &&
+                  <span style={{ color: 'red' }}>You have to login to add tickets!</span>}
+              <TicketEditForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} classes={classes} />
             </Grid>
 
             <Grid item>
@@ -102,6 +138,7 @@ const TicketsContainer = withStyles(styles)(
             </Grid>
 
           </Grid>
+
         </div>
       )
     }

@@ -4,10 +4,12 @@ import { withStyles } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography';
 import Comment from './Comment'
 import CommentForm from './CommentForm'
 import { loadTickets } from '../../actions/tickets'
 import { createComment, loadComments } from '../../actions/comments'
+import ticketPic from '../../lib/images/football_ticket'
 
 const styles = () => ({
   root: {
@@ -24,7 +26,7 @@ const TicketsDetails = withStyles(styles)(
     componentDidMount() {
       const { idEvent, idTicket } = this.props.match.params
       this.props.loadTickets(idEvent)
-      console.log("LOADED TICETS: "+JSON.stringify(this.props.match.params))
+      console.log("LOADED TICETS: " + JSON.stringify(this.props.match.params))
       this.props.loadComments(idEvent, idTicket)
       console.log("LOADED COMMENTS")
     }
@@ -40,7 +42,7 @@ const TicketsDetails = withStyles(styles)(
     }
 
     handleChange = text => event => {
-      console.log("NAME oooooooooooooooooooooooooooooooooooooooooooooooooo: "+text+"                 "+event.target.value)
+      console.log("NAME oooooooooooooooooooooooooooooooooooooooooooooooooo: " + text + "                 " + event.target.value)
       this.setState({
         [text]: event.target.value,
       })
@@ -91,22 +93,33 @@ const TicketsDetails = withStyles(styles)(
       // console.log("PARMA idEvent: " + idEvent)
       return (
         <div className={classes.root}>
-          <h1>
-            Ticket Detail
-        </h1>
-          <Grid container direction="column">
+          <Grid container direction="column" alignItems="center" spacing={32}>
             <Grid item>
-              Ticket from {selectedTicket.user &&
-                selectedTicket.user.firstName} {selectedTicket.user &&
-                  selectedTicket.user.lastName} (eager relation)
+              <Typography variant="display3" gutterBottom>
+                Ticket from {selectedTicket.user &&
+                  selectedTicket.user.firstName} {selectedTicket.user &&
+                    selectedTicket.user.lastName}
+              </Typography>
             </Grid>
             <Grid item>
-              We calculated that the risk of this ticket being a fraud is {this.calculateRisk(selectedTicket, tickets['tickets'])}%
+              <Typography variant="display1" gutterBottom>
+                Risk of this ticket being a fraud is {this.calculateRisk(selectedTicket, tickets['tickets'])}%
+              </Typography>
             </Grid>
-            <Grid item>Price: {selectedTicket.price}</Grid>
-            <Grid item>Description: {selectedTicket.description}</Grid>
+
+            <Grid item>EUR {selectedTicket.price}</Grid>
             <Grid item>
-              <Grid container>
+              <Grid container spacing={32}>
+                <Grid item><img src={ticketPic}/></Grid>
+                <Grid item>Real picture: {selectedTicket.picture}</Grid>
+                <Grid item>Description: {selectedTicket.description}</Grid>
+              </Grid>
+            </Grid>
+            <Grid item>
+              <Grid container direction="column">
+                <Grid item>
+                  <Typography variant="title" gutterBottom>Comments</Typography>
+                </Grid>
                 {/* {selectedTicket && selectedTicket.comments &&
                   selectedTicket.comments.map(comment =>
                     <Grid item key={comment.id}>
@@ -124,6 +137,8 @@ const TicketsDetails = withStyles(styles)(
               </Grid>
             </Grid>
             <Grid item>
+            {!this.props.currentUser && this.state && this.state.text === '' &&
+                  <span style={{ color: 'red' }}>You have to login to add comments!</span>}
               <CommentForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} />
             </Grid>
             <Grid item>

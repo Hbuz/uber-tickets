@@ -1,34 +1,34 @@
 import * as React from 'react'
+import Grid from '@material-ui/core/Grid'
+import TableCell from '@material-ui/core/TableCell'
+import TableRow from '@material-ui/core/TableRow'
+import ticketPic from '../../lib/images/football_ticket'
 
 export default function Tickets(props) {
 
-  return (<div>
-    TICKET
-    <div>
-      <strong>{props.price}</strong>
-      {props.description}
-    </div>
-    {/* <form className={props.classes.container} noValidate autoComplete="off" onSubmit={props.handleSubmit} >
-      <TextField
-        id="standard-price"
-        label="Price"
-        // className={this.props.classes.textField}
-        value={this.state.price}
-        onChange={props.handleChange('price')}
-        margin="normal"
-        placeholder={props.price}
-        readOnly={props.inputState}
-      />
-      <TextField
-        id="standard-description"
-        label="Description"
-        // className={props.classes.textField}
-        value={this.state.description}
-        onChange={props.handleChange('description')}
-        margin="normal"
-        placeholder={props.description}
-        readOnly={props.inputState}
-      />
-    </form> */}
-  </div>)
+  return (
+    // <div>
+    //   <Grid container spacing={40}  direction="row"
+    // justify="space-between"
+    // >
+    //     <Grid item >
+    //       {props.picture}
+    //     </Grid>
+    //     <Grid item>
+    //       <strong>{props.price}</strong>
+    //     </Grid>
+    //     <Grid item>
+    //       {props.description}
+    //     </Grid>
+    //   </Grid>
+    // </div>
+    <TableRow key={props.id}>
+      {/* <TableCell component="th" scope="row">{props.picture}</TableCell> */}
+      <TableCell component="th" scope="row"><img src={ticketPic} alt="No image for this ticket"/></TableCell>
+      <TableCell numeric>{props.price}</TableCell>
+      <TableCell component="th" scope="row">{props.description}</TableCell>
+    
+      </TableRow>
+
+  )
 }
