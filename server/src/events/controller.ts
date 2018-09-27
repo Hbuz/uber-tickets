@@ -1,4 +1,4 @@
-import { JsonController, Get, Post, HttpCode, Body, QueryParam } from 'routing-controllers'
+import { JsonController, Get, Post, HttpCode, Body, QueryParam, Authorized } from 'routing-controllers'
 import Event from './entity'
 // import User from '../users/entity'
 
@@ -6,7 +6,7 @@ import Event from './entity'
 
 // const limit = req.query.limit || 25
 // const offset = req.query.offset || 0
-
+// const today = new Date()
 
 @JsonController()
 export default class EventController {
@@ -22,13 +22,14 @@ export default class EventController {
     // console.log("PAGINATION PARAMS: " +pageSize)
     return Event.createQueryBuilder("event")
       .skip((--pageNumber) * pageSize)
-      .take(pageSize).getMany()
+      .take(pageSize)
+      .getMany()
     // return Event.find()
   }
   // @Param("pageNumber") pageNumber: number,  //offset
   // @Param("pageSize") pageSize: number) {    //limit
 
-
+  @Authorized()
   @Post('/events')
   @HttpCode(201)
   async createEvent(

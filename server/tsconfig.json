@@ -21,7 +21,7 @@
     "rootDir": "src/"
   },
   "include": [
-      "src/**/*", "../client/src/lib/utils.ts", "../client/src/reducers/players.js", "../client/src/reducers/index.js", "../client/src/components/login/LoginForm.jsx", "../client/src/components/login/LoginFormContainer.jsx", "../client/src/components/tickets/TicketForm.jsx", "../client/src/components/tickets/Comment.jsx", "../client/src/components/tickets/TicketEditFormContainer.jsx"
+      "src/**/*", "../client/src/lib/utils.ts", "../client/src/reducers/players.js", "../client/src/reducers/index.js", "../client/src/components/login/LoginForm.jsx", "../client/src/components/login/LoginFormContainer.jsx", "../client/src/components/tickets/TicketForm.jsx", "../client/src/components/tickets/Comment.jsx", "../client/src/components/tickets/TicketEditFormContainer.jsx", "../client/src/actions/comments.js"
   ],
   "exclude": [
       "node_modules",

@@ -7,11 +7,13 @@ export const USER_SIGNUP_SUCCESS = 'USER_SIGNUP_SUCCESS'
 export const ADD_USER = 'ADD_USER'
 export const USER_SIGNUP_FAILED = 'USER_SIGNUP_FAILED'
 
+export const USER_LOGOUT = 'USER_LOGOUT'
+
 const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:4000'
 
-const userLoginSuccess = (jwt) => ({
+const userLoginSuccess = (userJwt) => ({
   type: USER_LOGIN_SUCCESS,
-  payload: jwt
+  payload: userJwt
 })
 
 const userLoginFailed = (error) => ({
@@ -30,11 +32,15 @@ const userSignupFailed = (error) => ({
   payload: error || 'Unknown error'
 })
 
+export const logout = () => ({
+  type: USER_LOGOUT
+})
+
 export const login = (email, password) => (dispatch) =>
   request
     .post(`${baseUrl}/logins`)
     .send({ email, password })
-    .then(result => dispatch(userLoginSuccess(result.body.jwt)))
+    .then(result => dispatch(userLoginSuccess(result.body)))
     .catch(err => {
       if (err.status === 400) {
         dispatch(userLoginFailed(err.response.body.message))

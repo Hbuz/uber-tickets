@@ -7,6 +7,7 @@ import UserController from './users/controller'
 import EventController from './events/controller'
 import TicketController from './tickets/controller'
 import CommentController from './comments/controller'
+// import User from './users/entity'
 
 const port = process.env.PORT || 4000
 
@@ -22,7 +23,6 @@ const app = createKoaServer({
   ],
   authorizationChecker: (action: Action) => {
     const header: string = action.request.headers.authorization
-
     if (header && header.startsWith('Bearer ')) {
       const [, token] = header.split(' ')
       try {
@@ -32,8 +32,20 @@ const app = createKoaServer({
         throw new BadRequestError(e)
       }
     }
-
     return false
+  },
+  currentUserChecker: async (action: Action) => {
+    const header = action.request.headers["authorization"];
+    if (header && header.startsWith('Bearer ')) {
+      const [, token] = header.split(' ')
+      try {
+        // return User.findOne(jwt); 
+        return !!(token && verify(token)) //FIX ME
+      }
+      catch (e) {
+        throw new BadRequestError(e)
+      }
+    }
   }
 })
 

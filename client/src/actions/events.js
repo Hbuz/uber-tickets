@@ -1,4 +1,6 @@
 import request from 'superagent'
+import {isExpired} from '../jwt'
+import { logout } from './auth'
 
 export const EVENTS_FETCHED = 'EVENTS_FETCHED'
 export const ADD_EVENT = 'ADD_EVENT'
@@ -40,13 +42,15 @@ export const loadEvents = (eventPage) => (dispatch, getState) => {
 
 export const createEvent = (event) => (dispatch, getState) => {
   const state = getState()
-  // const jwt = state.currentUser.jwt
-  // if (isExpired(jwt)) return dispatch(logout())
+  if (!state.currentUser) return null
+  const jwt = state.currentUser.jwt
+  if (isExpired(jwt)) return dispatch(logout())
+
   // console.log("CREATE EVENT:    " + name+" "+ description+" "+ startDate+" "+ endDate)
   console.log("CREATE EVENT:    " + JSON.stringify(event))
   request
     .post(`${baseUrl}/events`)
-    // .set('Authorization', `Bearer ${jwt}`)
+    .set('Authorization', `Bearer ${jwt}`)
     // .attach('image1', imgUrl)
     .send(event)
     .then(result => dispatch(addEvent(result.body)))

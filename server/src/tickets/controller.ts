@@ -1,9 +1,9 @@
 //${baseUrl}/events/${idEvent}/tickets`
-import { JsonController, Get, Post, HttpCode, Body, Param, Put, NotFoundError } from 'routing-controllers'
+import { JsonController, Get, Post, HttpCode, Body, Param, Put, NotFoundError, Authorized } from 'routing-controllers'
 import Ticket from './entity'
 import Event from '../events/entity'
 import User from '../users/entity'
-import Comment from '../comments/entity'
+
 
 @JsonController()
 export default class TicketController {
@@ -20,6 +20,7 @@ export default class TicketController {
   }
 
 
+  @Authorized()
   @Post('/events/:eventId/tickets')
   @HttpCode(201)
   async createTicket(
@@ -35,9 +36,11 @@ export default class TicketController {
 
   }
 
+
+  @Authorized()
   @Put('/events/:eventId([0-9]+)/tickets/:ticketId([0-9]+)')
   async updateTicket(
-    // @CurrentUser() user: User,
+    // @CurrentUser() user?: User,
     @Param('ticketId') ticketId: number,
     @Body() editedTicket: Ticket
   ) {
@@ -47,27 +50,11 @@ export default class TicketController {
     console.log("TICKET TREOVATO: " + JSON.stringify(ticket))
 
     const newEditedTicket = await Ticket.create(
-        editedTicket
+      editedTicket
     )
     console.log("NEW EDITED TICKET: " + JSON.stringify(newEditedTicket))
 
     return Ticket.merge(ticket, newEditedTicket).save()
   }
 
-
-  @Post('/events/:eventId/tickets/:ticketId')
-  @HttpCode(201)
-  async createComment(
-    @Param("ticketId") ticketId: number,
-    @Body() { text }  //name, desc, pic, start, end
-  ) {
-    // console.log("*************************************  BODY RECEIVED FROM ADD_COMMENT: " + ticketId)
-    const ticket = await Ticket.findOne({ id: ticketId })
-    const user = await User.findOne({ id: 1 })
-
-    // console.log("*************************************  BODY RECEIVED FROM ADD_COMMENT: " + text)
-    const entity = await Comment.create({ user, ticket, text }).save()
-    return entity
-
-  }
 }

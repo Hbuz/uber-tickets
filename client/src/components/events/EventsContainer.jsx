@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid'
 import Events from './Events'
 import EventForm from './EventForm'
 import { loadEvents, createEvent } from '../../actions/events'
+import { logout } from '../../actions/auth'
 import moment from 'moment'
 
 const styles = () => ({
@@ -30,6 +31,7 @@ const EventsContainer = withStyles(styles)(
     }
 
     handleSubmit = (event) => {
+      event.preventDefault()
       this.props.createEvent(this.state)
       this.setState({
         name: '',
@@ -37,7 +39,6 @@ const EventsContainer = withStyles(styles)(
         startDate: '',
         endDate: ''
       })
-      event.preventDefault()
     }
 
     handleChange = name => event => {
@@ -47,8 +48,8 @@ const EventsContainer = withStyles(styles)(
     }
 
     onChange = name => date => {
-      console.log("-----------------DATE: "+name +"     "+ date)
-      const parsedDate = date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear()
+      console.log("-----------------DATE: " + name + "     " + date)
+      const parsedDate = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear()
       console.log(parsedDate)
       this.setState({ [name]: parsedDate })
     }
@@ -86,6 +87,9 @@ const EventsContainer = withStyles(styles)(
 
       return (
         <div className={classes.root}>
+          {/* {this.props.currentUser &&
+            <button onClick={() => this.props.logout()}>LOGOUT</button>
+          } */}
           <h1>Events</h1>
           <Grid container direction="column">
             <Grid item>
@@ -93,6 +97,8 @@ const EventsContainer = withStyles(styles)(
                 {events && events.events &&
                   events['events'].map(event => (
                     <Grid key={event.id} item xs={12} sm={6} md={4} lg={3}>
+
+                      {/* checj if endDate is > than today */}
 
                       <Link to={`/events/${event.id}/tickets`}>
                         <Events
@@ -103,6 +109,10 @@ const EventsContainer = withStyles(styles)(
                     </Grid>
                   ))}
               </Grid>
+            </Grid>
+
+            <Grid item>
+              <h3>Page {eventPage}</h3>
             </Grid>
 
             {
@@ -133,10 +143,11 @@ const EventsContainer = withStyles(styles)(
 const mapStateToProps = (state) => {
   return {
     events: state.events,
-    eventPage: state.eventPage
+    // eventPage: state.eventPage,
+    currentUser: state.currentUser
   }
 }
 
-const mapDispatchToProps = { loadEvents, createEvent }
+const mapDispatchToProps = { loadEvents, createEvent, logout }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventsContainer)

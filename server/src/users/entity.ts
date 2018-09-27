@@ -32,6 +32,9 @@ export default class User extends BaseEntity {
   @Exclude({ toPlainOnly: true })
   password: string
 
+  @Exclude({ toPlainOnly: true })
+  token: string
+
   // this is a relation, read more about them here:
   // http://typeorm.io/#/many-to-one-one-to-many-relations
   @OneToMany(_ => Ticket, ticket => ticket.user)

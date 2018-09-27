@@ -29,7 +29,7 @@ export default class TicketEditForm extends PureComponent {
             label="Price"
             className={this.props.classes.textField}
             value={this.state.price}
-            parse={value => !value ? null : Number(value)}  //???
+            // parse={value => !value ? null : Number(value)}  //???
             type="number"
             placeholder={`${this.props.selectedTicket.price}`}
             onChange={this.props.handleChange('price')}

@@ -1,8 +1,9 @@
 import request from 'superagent'
+import {isExpired} from '../jwt'
+import { logout } from './auth'
 
 export const TICKETS_FETCHED = 'TICKETS_FETCHED'
 export const ADD_TICKET = 'ADD_TICKET'
-export const ADD_COMMENT = 'ADD_COMMENT'
 export const TICKET_EDIT = 'TICKET_EDIT'
 
 
@@ -23,11 +24,6 @@ const ticketEdit= ticket => ({
   payload: ticket
 })
 
-const addComment = comment => ({
-  type: ADD_COMMENT,
-  payload: comment
-})
-
 
 export const loadTickets = (eventId) => (dispatch, getState) => {
   console.log("ssssssssssssssssssssssssssssss   " + JSON.stringify(getState()))
@@ -43,10 +39,15 @@ export const loadTickets = (eventId) => (dispatch, getState) => {
 
 
 export const createTicket = (eventId, ticket) => (dispatch, getState) => {
+  const state = getState()
+  if (!state.currentUser) return null
+  const jwt = state.currentUser.jwt
+  if (isExpired(jwt)) return dispatch(logout())
+
   // console.log("asasasasasasasasas: "+eventId+"    "+JSON.stringify(ticket))
   request
     .post(`${baseUrl}/events/${eventId}/tickets`)
-    // .set('Authorization', `Bearer ${jwt}`)
+    .set('Authorization', `Bearer ${jwt}`)
     .send(ticket)
     .then(result => {
       // console.log("INSIDE CREATE TICKET ACTION: "+JSON.stringify(result))
@@ -56,29 +57,22 @@ export const createTicket = (eventId, ticket) => (dispatch, getState) => {
 }
 
 
-export const editTicket = (eventId, ticketId, ticketChanges) => (dispatch, getState) => {
-  console.log("asasasasasasasasas: "+eventId+"    "+JSON.stringify(ticketChanges))
+export const editTicket = (eventId, ticketId, currentTicket, ticketEdited) => (dispatch, getState) => {
+  const state = getState()
+  if (!state.currentUser) return null //If not logged
+  const jwt = state.currentUser.jwt
+  if (isExpired(jwt)) return dispatch(logout())
+  //If current user is the author of the ticket, otherwise return
+  if (state.currentUser.user.id !== currentTicket.user.id ) return null
+
+  console.log("asasasasasasasasas: "+eventId+"    "+JSON.stringify(ticketEdited))
   request
     .put(`${baseUrl}/events/${eventId}/tickets/${ticketId}`)
-    // .set('Authorization', `Bearer ${jwt}`)
-    .send(ticketChanges)
+    .set('Authorization', `Bearer ${jwt}`)
+    .send(ticketEdited)
     .then(result => {
       console.log("INSIDE EDIT TICKET ACTION: "+JSON.stringify(result))
       return dispatch(ticketEdit(result.body))
-    })
-    .catch(err => console.error(err))
-}
-
-
-export const createComment = (eventId, ticketId, comment) => (dispatch, getState) => {
-  // console.log("asasasasasasasasas: "+eventId+"    "+JSON.stringify(ticket))
-  request
-    .post(`${baseUrl}/events/${eventId}/tickets/${ticketId}`)
-    // .set('Authorization', `Bearer ${jwt}`)
-    .send(comment)
-    .then(result => {
-      console.log("INSIDE CREATE COMMENT ACTION: "+JSON.stringify(result))
-      return dispatch(addComment(result.body))
     })
     .catch(err => console.error(err))
 }

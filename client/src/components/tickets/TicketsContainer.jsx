@@ -33,12 +33,12 @@ const TicketsContainer = withStyles(styles)(
     }
 
     handleSubmit = (event) => {
+      event.preventDefault()
       this.props.createTicket(this.props.match.params.idEvent, this.state)
       this.setState({
         price: '',
         description: ''
       })
-      // event.preventDefault()
     }
 
     handleChange = name => event => {
@@ -61,7 +61,11 @@ const TicketsContainer = withStyles(styles)(
         <div className={classes.root}>
           {/* <h1>Ticket from {this.props.match.params.idEvent}</h1> */}
           {/* <h1>Ticket from {selectedEvent.name}</h1> */}
-          <h1>Ticket from {tickets && tickets.tickets && tickets['tickets'][0].event.name}</h1>
+          <h1>Ticket from {tickets && 
+            tickets.tickets && 
+            tickets['tickets'][0]&& 
+            tickets['tickets'][0].event &&
+            tickets['tickets'][0].event.name}</h1>
           <Grid container direction="column">
             <Grid item>
               ticket

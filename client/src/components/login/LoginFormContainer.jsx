@@ -4,6 +4,7 @@ import { Redirect, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import LoginForm from './LoginForm'
 import { login } from '../../actions/auth'
+import Button from '@material-ui/core/Button'
 
 class LoginFormContainer extends Component {
   state = { email: '', password: '' }
@@ -21,7 +22,7 @@ class LoginFormContainer extends Component {
 
   render() {
     if (this.props.currentUser) return (
-      <Redirect to="/" />
+      <Redirect to="/events" />
     )
     return (
       <div>
@@ -34,6 +35,11 @@ class LoginFormContainer extends Component {
         </div>
         <div>
           <Link to='/signup'>SIGNUP!</Link> 
+        </div>
+        <div>
+          <Link to="/events">
+            <Button>VIEW EVENTS</Button>
+          </Link>
         </div>
       </div>
     )
