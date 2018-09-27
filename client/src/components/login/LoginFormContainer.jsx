@@ -1,5 +1,4 @@
-// import React, { PureComponent } from 'react'
-import React, { Component } from 'react'  //For working Link
+import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import LoginForm from './LoginForm'
@@ -14,12 +13,6 @@ class LoginFormContainer extends Component {
     this.props.login(event.email, event.password)
   }
 
-  // handleChange = (event) => {
-  //   const { name, value } = event.target
-  //   this.setState({
-  //     [name]: value
-  //   })
-  // }
 
   render() {
     if (this.props.currentUser) return (
@@ -34,7 +27,6 @@ class LoginFormContainer extends Component {
                 LOGIN!
           </Grid>
               <Grid item>
-                {/* <LoginForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} values={this.state} /> */}
                 <LoginForm handleSubmit={this.handleSubmit} />
                 {this.props.error &&
                   <span style={{ color: 'red' }}>{this.props.error}</span>}

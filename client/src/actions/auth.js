@@ -22,7 +22,6 @@ const userLoginFailed = (error) => ({
 })
 
 const userSignupSuccess = (entity) => ({
-  // type: USER_SIGNUP_SUCCESS
   type: ADD_USER,
   payload: entity
 })
@@ -55,9 +54,7 @@ export const signup = (email, password) => (dispatch) =>
   request
     .post(`${baseUrl}/users`)
     .send({ firstName: email, lastName: email, email, password })
-    .then(result => {
-      return dispatch(userSignupSuccess(result.body))
-    })
+    .then(result => dispatch(userSignupSuccess(result.body)))
     .catch(err => {
       if (err.status === 400) {
         dispatch(userSignupFailed(err.response.body.message))

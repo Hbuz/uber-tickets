@@ -4,14 +4,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import { withRouter } from 'react-router'
-import { userId } from '../../jwt'
 import { connect } from 'react-redux'
 import { logout } from '../../actions/auth'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 
 const TopBar = (props) => {
   const { location, history, currentUser, user, logout } = props
-  console.log("PROPS in TOOLBAR: " + JSON.stringify(props))
 
   return (
     <AppBar position="absolute" style={{ zIndex: 10 }}>

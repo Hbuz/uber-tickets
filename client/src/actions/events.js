@@ -10,7 +10,7 @@ export const limit = process.env.LIMIT_EVENTS || 9
 
 const eventsFetched = events => ({
   type: EVENTS_FETCHED,
-  payload: events //Array
+  payload: events
 })
 
 const addEvent = event => ({
@@ -20,23 +20,16 @@ const addEvent = event => ({
 
 
 export const loadEvents = (eventPage) => (dispatch, getState) => {
-  // console.log("ssssssssssssssssssssssssssssss   " + JSON.stringify(getState()))
-  // console.log("EVENTPAGE:    " + eventPage)
   if (getState().events.lenght > 0) return
 
   const pageNumber = eventPage
   const pageSize = limit
 
-  // request(`${baseUrl}/events/`)
   request
     .get(`${baseUrl}/events`)
     .query({ pageNumber: pageNumber })
     .query({ pageSize: pageSize })
-    .then(response => {
-      console.log("RESPONSE EVENT QUERY   " + JSON.stringify(response))
-      return dispatch(eventsFetched(response.body))
-    }
-    )
+    .then(response => dispatch(eventsFetched(response.body)))
     .catch(console.error)
 }
 
@@ -47,7 +40,6 @@ export const createEvent = (event) => (dispatch, getState) => {
   const jwt = state.currentUser.jwt
   if (isExpired(jwt)) return dispatch(logout())
 
-  console.log("CREATE EVENT:    " + JSON.stringify(event))
   request
     .post(`${baseUrl}/events`)
     .set('Authorization', `Bearer ${jwt}`)

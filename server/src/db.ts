@@ -37,7 +37,7 @@ export default () =>
         Ticket,
         Comment
       ],
-      synchronize: true,	//--> keep db synchronized. In production should be false and use migration instead  
+      synchronize: true,
       logging: true,
       namingStrategy: new CustomNamingStrategy()
   })

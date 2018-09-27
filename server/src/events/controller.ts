@@ -1,12 +1,6 @@
 import { JsonController, Get, Post, HttpCode, Body, QueryParam, Authorized } from 'routing-controllers'
 import Event from './entity'
-// import User from '../users/entity'
 
-
-
-// const limit = req.query.limit || 25
-// const offset = req.query.offset || 0
-// const today = new Date()
 
 @JsonController()
 export default class EventController {
@@ -17,39 +11,20 @@ export default class EventController {
     @QueryParam("pageSize") pageSize: number
   )
     {
-    // console.log("PAGINATION PARAMS: " +JSON.stringify(body))
-    // console.log("PAGINATION PARAMS: " +pageNumber)
-    // console.log("PAGINATION PARAMS: " +pageSize)
     return Event.createQueryBuilder("event")
       .skip((--pageNumber) * pageSize)
       .take(pageSize)
       .getMany()
-    // return Event.find()
   }
-  // @Param("pageNumber") pageNumber: number,  //offset
-  // @Param("pageSize") pageSize: number) {    //limit
+
 
   @Authorized()
   @Post('/events')
   @HttpCode(201)
   async createEvent(
-    @Body() { name, description, picture, startDate, endDate }  //name, desc, pic, start, end
+    @Body() { name, description, picture, startDate, endDate }
   ) {
-    // console.log("*************************************  BODY RECEIVED FROM ADD_EVENT: "+name +" "+description)
     const entity = await Event.create({ name, description, picture, startDate, endDate }).save()
     return entity
   }
-  // @Post('/events')
-  // @HttpCode(201)
-  // async createEvent(
-  //   @Body() body  //name, desc, pic, start, end
-  // ) {
-  //   console.log("*************************************  BODY RECEIVED FROM ADD_EVENT: "+JSON.stringify(body))
-  //   const entity = await Event.create().save()
-  //   const event = await Event.findByOneId(entity.id)
-  //   if (!event) throw new BadRequestError(`Game does not exist`)
-  //   await event.save()
-  //   return entity
-  // }
-
 }

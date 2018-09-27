@@ -21,12 +21,8 @@ const TicketEditFormContainer = withStyles(styles)(class extends PureComponent {
 
   state = {}
 
-  // handleSubmit = (event) => {
-  //   this.props.editTicket()
-  // }
   handleSubmit = (event) => {
     event.preventDefault()
-    console.log("STATE PRIMA DI ACTION: " + JSON.stringify(this.state))
     this.props.editTicket(this.props.match.params.idEvent,
       this.props.match.params.idTicket,
       this.selectTicket(this.props.tickets['tickets']),
@@ -35,13 +31,11 @@ const TicketEditFormContainer = withStyles(styles)(class extends PureComponent {
       price: 0,
       description: ''
     })
-    // <Link to='/events/${this.props.selectedTicket.event.id}/tickets'>
     this.props.currentUser &&
       this.props.history.push(`/events/${this.props.match.params.idEvent}/tickets`)
   }
 
   handleChange = name => event => {
-    console.log("NAME: " + name + "                 " + event.target.value)
     name === 'price' ?
       this.setState({
         [name]: Number(event.target.value)
@@ -53,9 +47,7 @@ const TicketEditFormContainer = withStyles(styles)(class extends PureComponent {
   }
 
   selectTicket = (tickets) => {
-    console.log("TICKETS??? " + JSON.stringify(tickets) + "   params: " + JSON.stringify(this.props.match.params))
     const ticketFound = tickets && tickets.filter((ticket) => ticket.id == this.props.match.params.idTicket)[0]
-    console.log("FOUND " + JSON.stringify(ticketFound))
     return ticketFound
   }
 

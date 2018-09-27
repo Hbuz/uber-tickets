@@ -3,7 +3,6 @@ import DatePicker from 'react-date-picker'
 import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
-import FileInput from 'react-file-input'
 
 const styles = (theme) => ({
   container: {
@@ -25,7 +24,6 @@ const EventForm = withStyles(styles)(
     render() {
       return (
         <div>
-          {/* <form className={this.props.classes.container} noValidate autoComplete="off" onSubmit={this.props.handleSubmit} > */}
           <form noValidate autoComplete="off" onSubmit={this.props.handleSubmit} >
             <Grid container direction="column">
               <Grid item>
@@ -52,27 +50,15 @@ const EventForm = withStyles(styles)(
                     value={this.state.picture}
                     onChange={this.props.handleChange('picture')}
                   />
-                  {/* <DatePicker
-              selected={this.state.startDate}
-              // onSelect={this.handleSelect} //when day is clicked  //???
-              onChange={this.handleChange} //only when value has changed
-            /> */}
                   <DatePicker
                     onChange={this.props.onChange('startDate')}
                     value={this.state.startDate}
                     selected={this.state.startDate}
-                    placeholder="Return flight date"  //???
                   />
-                  {/* <DatePicker
-              selected={this.state.endDate}
-              // onSelect={this.handleSelect} //when day is clicked //???
-              onChange={this.handleChange} //only when value has changed
-            /> */}
                   <DatePicker
                     selected={this.state.endDate}
                     onChange={this.props.onChange('endDate')}
                     value={this.state.endDate}
-                    placeholder="00/00/00"  //???
                   />
                 </Grid>
               </Grid>

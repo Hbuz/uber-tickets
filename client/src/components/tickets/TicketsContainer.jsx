@@ -30,13 +30,6 @@ const styles = () => ({
 const TicketsContainer = withStyles(styles)(
   class extends Component {
 
-    // constructor(props) {
-    //   super(props);
-    //   this.state = {
-    //     readOnly: true
-    //   }
-    // }
-
     componentDidMount() {
       const { idEvent } = this.props.match.params
       this.props.loadTickets(idEvent)
@@ -53,7 +46,6 @@ const TicketsContainer = withStyles(styles)(
     }
 
     handleChange = name => event => {
-      // console.log("NAME: "+name+"                 "+event.target.value)
       this.setState({
         [name]: event.target.value,
       })
@@ -61,12 +53,10 @@ const TicketsContainer = withStyles(styles)(
 
 
     render() {
-      // console.log("PROPSSSS: "+JSON.stringify(this.props))
       if (!this.props.tickets) return 'Loading...'
 
       const { classes, tickets } = this.props
       const idEvent = this.props.match.params.idEvent
-      const selectedEvent = this.props.events['events'] ? this.props.events['events'].filter(event => event.id == idEvent) : []  //BECASUE MISMATCH TYPE
 
       return (
         <div className={classes.root}>
@@ -76,24 +66,14 @@ const TicketsContainer = withStyles(styles)(
                 tickets.tickets &&
                 tickets['tickets'][0] &&
                 tickets['tickets'][0].event &&
-                tickets['tickets'][0].event.name} event</h1>
+                tickets['tickets'][0].event.name}</h1>
             </Grid>
             <Grid item>
+
+              {this.props.tickets && this.props.tickets['tickets'] && this.props.tickets['tickets'].length > 0 ? (
+
               <Grid container direction="column">
                 <Grid item>
-
-                  {/* <Grid container direction="column" spacing={24} justify="space-around" className={classes.container}>
-                    {tickets && tickets.tickets &&
-                      tickets['tickets'].map(ticket => (
-                        <Grid key={ticket.id} item >
-                          <Link to={`/events/${idEvent}/tickets/${ticket.id}/details`}>
-                            <Tickets
-                              {...ticket} handleSubmit={this.handleSubmit} handleChange={this.handleChange}
-                            />
-                          </Link>
-                        </Grid>
-                      ))}
-                  </Grid> */}
 
                   <Paper className={classes.root}>
                     <Table className={classes.table}>
@@ -108,6 +88,7 @@ const TicketsContainer = withStyles(styles)(
                         {tickets && tickets.tickets &&
                           tickets['tickets'].map(ticket => {
                             return (
+                              //FIX ME!!! Warnings in console
                               // <TableRow key={ticket.id}>
                               <div>
                                 <Link to={`/events/${idEvent}/tickets/${ticket.id}/details`}>
@@ -124,10 +105,13 @@ const TicketsContainer = withStyles(styles)(
                   </Paper>
                 </Grid>
               </Grid>
+              ) :
+                <h1>No tickets added yet!</h1>
+              }
             </Grid>
             <Grid item>
-            {!this.props.currentUser && this.state && this.state.description === '' &&
-                  <span style={{ color: 'red' }}>You have to login to add tickets!</span>}
+              {!this.props.currentUser && this.state && this.state.description === '' &&
+                <span style={{ color: 'red' }}>You have to login to add tickets!</span>}
               <TicketEditForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} classes={classes} />
             </Grid>
 
@@ -145,11 +129,11 @@ const TicketsContainer = withStyles(styles)(
   }
 )
 
-// const mapStateToProps = ({ events }) => ({ events })
-const mapStateToProps = (state) => {  //change to tickets?
+const mapStateToProps = (state) => {
   return {
     events: state.events,
-    tickets: state.tickets
+    tickets: state.tickets,
+    currentUser: state.currentUser
   }
 }
 

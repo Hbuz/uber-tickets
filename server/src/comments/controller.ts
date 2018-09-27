@@ -10,12 +10,9 @@ export default class CommentController {
   async getComments(
     @Param("ticketId") ticketId: number
   ) {
-    //USE QUERY BUILDER INSTEAD
-    console.log("COMMENT TICKET ID: " + ticketId)
-    const ticket = await Ticket.findOne({ id: ticketId })  //CHECK
+    //COULD QUERY BUILDER BE BETTER?
+    const ticket = await Ticket.findOne({ id: ticketId })
     const comments = ticket ? await Comment.find({ ticket: ticket }) : null
-    console.log("TICKET SELECTED FOR COMMETNS: " + JSON.stringify(ticket))
-    console.log("eeeeeeeeeeeeeeeeeeeeeEEEEEEEeeeee: " + comments)
     return ticket ? comments : []
   }
 
@@ -24,13 +21,11 @@ export default class CommentController {
   @HttpCode(201)
   async createComment(
     @Param("ticketId") ticketId: number,
-    @Body() { text }  //name, desc, pic, start, end
+    @Body() { text }
   ) {
-    // console.log("*************************************  BODY RECEIVED FROM ADD_COMMENT: " + ticketId)
     const ticket = await Ticket.findOne({ id: ticketId })
     const user = await User.findOne({ id: 1 })
 
-    // console.log("*************************************  BODY RECEIVED FROM ADD_COMMENT: " + text)
     const entity = await Comment.create({ user, ticket, text }).save()
     return entity
   }

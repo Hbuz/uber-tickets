@@ -3,8 +3,6 @@ import User from '../users/entity'
 import Event from '../events/entity'
 import Comment from '../comments/entity'
 
-// @Entity()
-// @Index(['game', 'user', 'avatar'], { unique: true }) //???
 @Entity()
 export default class Ticket extends BaseEntity {
 
