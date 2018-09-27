@@ -53,7 +53,7 @@ const EventForm = withStyles(styles)(
                 onChange={this.props.onChange('startDate')}
                 value={this.state.startDate}
                 selected={this.state.startDate}
-                placeholder="Return flight date"
+                placeholder="Return flight date"  //???
               />
             </div>
             {/* <DatePicker
@@ -65,7 +65,7 @@ const EventForm = withStyles(styles)(
               selected={this.state.endDate}
               onChange={this.props.onChange('endDate')}
               value={this.state.endDate}
-              placeholder="00/00/00"
+              placeholder="00/00/00"  //???
             />
 
             <button type="submit">CREATE EVENT</button>

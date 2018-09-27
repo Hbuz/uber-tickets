@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button'
 import Comment from './Comment'
 import CommentForm from './CommentForm'
 import { loadTickets } from '../../actions/tickets'
-import { createComment } from '../../actions/comments'
+import { createComment, loadComments } from '../../actions/comments'
 
 const styles = () => ({
   root: {
@@ -22,8 +22,11 @@ const TicketsDetails = withStyles(styles)(
   class extends Component {
 
     componentDidMount() {
-      const { idEvent } = this.props.match.params
+      const { idEvent, idTicket } = this.props.match.params
       this.props.loadTickets(idEvent)
+      console.log("LOADED TICETS: "+JSON.stringify(this.props.match.params))
+      this.props.loadComments(idEvent, idTicket)
+      console.log("LOADED COMMENTS")
     }
 
     handleSubmit = (event) => {
@@ -32,12 +35,12 @@ const TicketsDetails = withStyles(styles)(
       // console.log("LO STATE: " + this.props.match.params.idTicket)
       this.props.createComment(this.props.match.params.idEvent, this.props.match.params.idTicket, this.state)  //Primo param?
       this.setState({
-        text: '',
+        text: ''
       })
     }
 
     handleChange = text => event => {
-      // console.log("NAME: "+text+"                 "+event.target.value)
+      console.log("NAME oooooooooooooooooooooooooooooooooooooooooooooooooo: "+text+"                 "+event.target.value)
       this.setState({
         [text]: event.target.value,
       })
@@ -81,7 +84,7 @@ const TicketsDetails = withStyles(styles)(
 
 
     render() {
-      const { classes, tickets } = this.props
+      const { classes, tickets, comments } = this.props
       const selectedTicket = tickets['tickets'] ? tickets['tickets'].filter(t => t.id == this.props.match.params.idTicket)[0] : ''
       const idEvent = this.props.match.params.idEvent
       // console.log("SELECTED TICKET: " + JSON.stringify(selectedTicket))
@@ -91,7 +94,7 @@ const TicketsDetails = withStyles(styles)(
           <h1>
             Ticket Detail
         </h1>
-          <Grid container>
+          <Grid container direction="column">
             <Grid item>
               Ticket from {selectedTicket.user &&
                 selectedTicket.user.firstName} {selectedTicket.user &&
@@ -104,9 +107,18 @@ const TicketsDetails = withStyles(styles)(
             <Grid item>Description: {selectedTicket.description}</Grid>
             <Grid item>
               <Grid container>
-                {selectedTicket && selectedTicket.comments &&
+                {/* {selectedTicket && selectedTicket.comments &&
                   selectedTicket.comments.map(comment =>
-                    <Grid item key={comment.id}><Comment {...comment} /></Grid>
+                    <Grid item key={comment.id}>
+                      <Comment {...comment} />
+                    </Grid>
+                  )
+                } */}
+                {comments && comments['comments'] &&
+                  comments['comments'].map(comment =>
+                    <Grid item key={comment.id}>
+                      <Comment {...comment} />
+                    </Grid>
                   )
                 }
               </Grid>
@@ -115,19 +127,23 @@ const TicketsDetails = withStyles(styles)(
               <CommentForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} />
             </Grid>
             <Grid item>
-              <Link to={`/events/${idEvent}/tickets/${selectedTicket.id}/edit`}>
-                <Button>EDIT TICKET</Button>
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link to={`/events/${idEvent}/tickets`}>
-                <Button>BACK TO TICKETS</Button>
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link to='/events'>
-                <Button>BACK TO EVENTS</Button>
-              </Link>
+              <Grid container>
+                <Grid item>
+                  <Link to={`/events/${idEvent}/tickets/${selectedTicket.id}/edit`}>
+                    <Button>EDIT TICKET</Button>
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link to={`/events/${idEvent}/tickets`}>
+                    <Button>BACK TO TICKETS</Button>
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link to='/events'>
+                    <Button>BACK TO EVENTS</Button>
+                  </Link>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
 
@@ -140,9 +156,10 @@ const TicketsDetails = withStyles(styles)(
 const mapStateToProps = (state) => {
   return {
     tickets: state.tickets,
+    comments: state.comments
   }
 }
 
-const mapDispatchToProps = { createComment, loadTickets }
+const mapDispatchToProps = { createComment, loadTickets, loadComments }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TicketsDetails)

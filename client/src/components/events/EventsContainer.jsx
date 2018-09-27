@@ -7,7 +7,7 @@ import Events from './Events'
 import EventForm from './EventForm'
 import { loadEvents, createEvent } from '../../actions/events'
 import { logout } from '../../actions/auth'
-import moment from 'moment'
+import { todayMillis, parsedEventDate } from '../../lib/utils'
 
 const styles = () => ({
   root: {
@@ -49,7 +49,7 @@ const EventsContainer = withStyles(styles)(
 
     onChange = name => date => {
       console.log("-----------------DATE: " + name + "     " + date)
-      const parsedDate = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear()
+      const parsedDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear()
       console.log(parsedDate)
       this.setState({ [name]: parsedDate })
     }
@@ -77,8 +77,10 @@ const EventsContainer = withStyles(styles)(
     render() {
       if (!this.props.events) return 'Loading...'
 
-      console.log("EVENTI: " + JSON.stringify(this.props))
-      console.log("EVENTI: " + JSON.stringify(this.state))
+      // console.log("EVENTI: " + JSON.stringify(this.props))
+      // console.log("EVENTI: " + JSON.stringify(this.state))
+
+      console.log("TODAY MILLIS: " + todayMillis)
 
       const { classes, events } = this.props
       const eventPage = this.state.eventPage
@@ -98,13 +100,15 @@ const EventsContainer = withStyles(styles)(
                   events['events'].map(event => (
                     <Grid key={event.id} item xs={12} sm={6} md={4} lg={3}>
 
-                      {/* checj if endDate is > than today */}
+                      {/* UNCOMMENT FOR CHECK END DATE FEATURE */}
+                      {/* {parsedEventDate(event.endDate) > todayMillis && */}
+                        <Link to={`/events/${event.id}/tickets`}>
+                          <Events
+                            {...event}
+                          />
+                        </Link>
+                      {/* } */}
 
-                      <Link to={`/events/${event.id}/tickets`}>
-                        <Events
-                          {...event}
-                        />
-                      </Link>
 
                     </Grid>
                   ))}
