@@ -14,10 +14,12 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-const styles = () => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
     padding: 28,
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto',
   },
   container: {
     flexWrap: 'wrap'
@@ -72,39 +74,37 @@ const TicketsContainer = withStyles(styles)(
 
               {this.props.tickets && this.props.tickets['tickets'] && this.props.tickets['tickets'].length > 0 ? (
 
-              <Grid container direction="column">
-                <Grid item>
+                <Grid container direction="column">
+                  <Grid item>
 
-                  <Paper className={classes.root}>
-                    <Table className={classes.table}>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Picture</TableCell>
-                          <TableCell numeric>Price</TableCell>
-                          <TableCell>Description</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {tickets && tickets.tickets &&
-                          tickets['tickets'].map(ticket => {
-                            return (
-                              //FIX ME!!! Warnings in console
-                              // <TableRow key={ticket.id}>
-                              <div>
-                                <Link to={`/events/${idEvent}/tickets/${ticket.id}/details`}>
-                                  <Tickets
-                                    {...ticket} handleSubmit={this.handleSubmit} handleChange={this.handleChange}
-                                  />
-                                </Link>
-                              </div>
-                              // </TableRow>
-                            )
-                          })}
-                      </TableBody>
-                    </Table>
-                  </Paper>
+                    <Paper className={classes.root}>
+                      <Table className={classes.table}>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>Picture</TableCell>
+                            <TableCell numeric>Price</TableCell>
+                            <TableCell>Description</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {tickets && tickets.tickets &&
+                            tickets['tickets'].map(ticket => {
+                              return (
+                                //FIX ME!!! Warnings in console
+                                <div key={ticket.id}>
+                                  <Link to={`/events/${idEvent}/tickets/${ticket.id}/details`}>
+                                    <Tickets
+                                      {...ticket} handleSubmit={this.handleSubmit} handleChange={this.handleChange}
+                                    />
+                                  </Link>
+                                </div>
+                              )
+                            })}
+                        </TableBody>
+                      </Table>
+                    </Paper>
+                  </Grid>
                 </Grid>
-              </Grid>
               ) :
                 <h1>No tickets added yet!</h1>
               }

@@ -123,7 +123,7 @@ const EventsContainer = withStyles(styles)(
                   }
 
                   {events && events.events &&
-                    events['events'].length === limit &&
+                    events['events'].length >= limit &&
                     <Grid item>
                       <Button type="submit" color="primary" onClick={() => this.loadNextEvents(eventPage)}>NEXT EVENTS</Button>
                     </Grid>

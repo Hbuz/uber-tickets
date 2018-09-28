@@ -9,7 +9,6 @@ import Comment from './Comment'
 import CommentForm from './CommentForm'
 import { loadTickets } from '../../actions/tickets'
 import { createComment, loadComments } from '../../actions/comments'
-import ticketPic from '../../lib/images/football_ticket'
 import { calculateRisk } from '../../lib/riskCalculator'
 
 const styles = () => ({
@@ -49,8 +48,13 @@ const TicketsDetails = withStyles(styles)(
       const { classes, tickets, comments } = this.props
       const selectedTicket = tickets['tickets'] ? tickets['tickets'].filter(t => t.id == this.props.match.params.idTicket)[0] : ''
       const idEvent = this.props.match.params.idEvent
+
+      const splitted = selectedTicket && selectedTicket.picture.split('\\')
+      const ticketPic = splitted && require(`../../lib/images/${splitted[splitted.length -1]}`)
+
       const risk = calculateRisk(selectedTicket, tickets['tickets']).toFixed(2)
       const riskColor = risk > 45 && 'red' || risk >= 15 && risk <= 45 && 'yellow' || risk < 15 && 'green'
+
       return (
         <div className={classes.root} style={{ backgroundColor: riskColor }}>
 
@@ -71,7 +75,7 @@ const TicketsDetails = withStyles(styles)(
             <Grid item>EUR {selectedTicket.price}</Grid>
             <Grid item>
               <Grid container spacing={32}>
-                <Grid item><img src={ticketPic} /></Grid>
+                <Grid item><img width="350" height="250" src={ticketPic} /></Grid>
                 <Grid item>
                   <Grid container direction="column" spacing={32}>
                     <Grid item>Real picture: {selectedTicket.picture}</Grid>

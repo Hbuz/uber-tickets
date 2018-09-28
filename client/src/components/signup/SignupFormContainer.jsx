@@ -3,26 +3,61 @@ import { connect } from 'react-redux'
 import { signup } from '../../actions/auth'
 import SignupForm from './SignupForm'
 import { Redirect } from 'react-router-dom'
+import Grid from '@material-ui/core/Grid'
+import { withStyles } from '@material-ui/core/styles'
 
-class SignupFormContainer extends PureComponent {
-  handleSubmit = (data) => {
-    this.props.postSignup(data.email, data.password)  //TRY WITH signup INSTEAD OF postSignup
+const styles = () => ({
+  root: {
+    flexGrow: 1,
+  },
+  container: {
+    padding: 24,
+    flexWrap: 'wrap'
   }
+})
 
-  render() {
-    if (this.props.signup.success) return (
-      <Redirect to="/" />
-    )
 
-    return (
-      <div>
-        <h1>SIGNUP!!!</h1>
-        <SignupForm onSubmit={this.handleSubmit} />
-        <p style={{ color: 'red' }}>{this.props.signup.error}</p>
-      </div>
-    )
+// const EventsContainer = withStyles(styles)(
+//   class extends Component {
+
+
+// class SignupFormContainer extends PureComponent {
+//   handleSubmit = (data) => {
+//     this.props.postSignup(data.email, data.password)
+//   }
+
+const SignupFormContainer = withStyles(styles)(
+  class extends PureComponent {
+
+    handleSubmit = (data) => {
+      this.props.postSignup(data.email, data.password)
+    }
+
+    render() {
+      if (this.props.signup.success) return (
+        <Redirect to="/" />
+      )
+
+      const { classes, signup } = this.props
+
+      return (
+        <div>
+          <Grid container className={classes.container} direction="column">
+            <Grid item>
+              <h1>SIGNUP</h1>
+            </Grid>
+            <Grid item>
+              <SignupForm onSubmit={this.handleSubmit} />
+            </Grid>
+            <Grid item>
+              <p style={{ color: 'red' }}>{this.props.signup.error}</p>
+            </Grid>
+          </Grid>
+        </div>
+      )
+    }
   }
-}
+)
 
 const mapStateToProps = function (state) {
   return {
@@ -30,6 +65,6 @@ const mapStateToProps = function (state) {
   }
 }
 
-const mapDispatchToProps = { postSignup: signup } //TRY CHANHGE ME
+const mapDispatchToProps = { postSignup: signup }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignupFormContainer)
