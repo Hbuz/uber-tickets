@@ -44,7 +44,7 @@ export default class LoginForm extends PureComponent {
               </label>
             </Grid>
 
-            <Grid>
+            <Grid item>
               <Button type="submit">Login</Button>
             </Grid>
 
