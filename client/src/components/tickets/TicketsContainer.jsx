@@ -72,39 +72,37 @@ const TicketsContainer = withStyles(styles)(
 
               {this.props.tickets && this.props.tickets['tickets'] && this.props.tickets['tickets'].length > 0 ? (
 
-              <Grid container direction="column">
-                <Grid item>
+                <Grid container direction="column">
+                  <Grid item>
 
-                  <Paper className={classes.root}>
-                    <Table className={classes.table}>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Picture</TableCell>
-                          <TableCell numeric>Price</TableCell>
-                          <TableCell>Description</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {tickets && tickets.tickets &&
-                          tickets['tickets'].map(ticket => {
-                            return (
-                              //FIX ME!!! Warnings in console
-                              // <TableRow key={ticket.id}>
-                              <div>
-                                <Link to={`/events/${idEvent}/tickets/${ticket.id}/details`}>
-                                  <Tickets
-                                    {...ticket} handleSubmit={this.handleSubmit} handleChange={this.handleChange}
-                                  />
-                                </Link>
-                              </div>
-                              // </TableRow>
-                            )
-                          })}
-                      </TableBody>
-                    </Table>
-                  </Paper>
+                    <Paper className={classes.root}>
+                      <Table className={classes.table}>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>Picture</TableCell>
+                            <TableCell numeric>Price</TableCell>
+                            <TableCell>Description</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {tickets && tickets.tickets &&
+                            tickets['tickets'].map(ticket => {
+                              return (
+                                //FIX ME!!! Warnings in console
+                                <TableRow key={ticket.id}>
+                                  <Link to={`/events/${idEvent}/tickets/${ticket.id}/details`}>
+                                    <Tickets
+                                      {...ticket} handleSubmit={this.handleSubmit} handleChange={this.handleChange}
+                                    />
+                                  </Link>
+                                </TableRow>
+                              )
+                            })}
+                        </TableBody>
+                      </Table>
+                    </Paper>
+                  </Grid>
                 </Grid>
-              </Grid>
               ) :
                 <h1>No tickets added yet!</h1>
               }
