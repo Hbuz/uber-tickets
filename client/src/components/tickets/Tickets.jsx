@@ -4,8 +4,8 @@ import TableRow from '@material-ui/core/TableRow'
 import Grid from '@material-ui/core/Grid'
 
 export default function Tickets(props) {
-  const splitted = props.picture.split('\\')
-  const ticketPic = require(`../../lib/images/${splitted[splitted.length - 1]}`)
+  const splitted = props.picture && props.picture.split('\\')
+  const ticketPic = splitted && require(`../../lib/images/${splitted[splitted.length - 1]}`)
   return (
     <TableRow>
       <Grid container direction="row" justify="space-between" alignItems="center">

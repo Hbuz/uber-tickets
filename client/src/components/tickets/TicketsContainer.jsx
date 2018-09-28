@@ -39,7 +39,7 @@ const TicketsContainer = withStyles(styles)(
 
     handleSubmit = (event) => {
       event.preventDefault()
-      this.props.createTicket(this.props.match.params.idEvent, this.state)
+      this.props.createTicket(this.props.match.params.idEvent, this.props.currentUser.user, this.state)
       this.setState({
         price: '',
         description: '',

@@ -24,6 +24,7 @@ export const calculateRisk = (selectedTicket, tickets) => {
   }
 }
 
+
 const getAveragePrice = (tickets) => {
   return tickets ? tickets.reduce((total, ticket) => total + ticket.price, 0) / tickets.length : 0
 }

@@ -31,7 +31,7 @@ const TicketsDetails = withStyles(styles)(
 
     handleSubmit = (event) => {
       event.preventDefault()
-      this.props.createComment(this.props.match.params.idEvent, this.props.match.params.idTicket, this.state)
+      this.props.createComment(this.props.match.params.idEvent, this.props.match.params.idTicket, this.props.currentUser.user, this.state)
       this.setState({
         text: ''
       })
@@ -49,7 +49,7 @@ const TicketsDetails = withStyles(styles)(
       const selectedTicket = tickets['tickets'] ? tickets['tickets'].filter(t => t.id == this.props.match.params.idTicket)[0] : ''
       const idEvent = this.props.match.params.idEvent
 
-      const splitted = selectedTicket && selectedTicket.picture.split('\\')
+      const splitted =  selectedTicket && selectedTicket.picture && selectedTicket.picture.split('\\')
       const ticketPic = splitted && require(`../../lib/images/${splitted[splitted.length -1]}`)
 
       const risk = calculateRisk(selectedTicket, tickets['tickets']).toFixed(2)
@@ -75,11 +75,11 @@ const TicketsDetails = withStyles(styles)(
             <Grid item>EUR {selectedTicket.price}</Grid>
             <Grid item>
               <Grid container spacing={32}>
-                <Grid item><img width="350" height="250" src={ticketPic} /></Grid>
+                <Grid item><img width="350" height="250" src={ticketPic} alt="No image added for this ticket"/></Grid>
                 <Grid item>
                   <Grid container direction="column" spacing={32}>
-                    <Grid item>Real picture: {selectedTicket.picture}</Grid>
-                    <Grid item>Description: {selectedTicket.description}</Grid>
+                    {/* <Grid item>Real picture: {selectedTicket.picture}</Grid> */}
+                    <Grid item>{selectedTicket.description}</Grid>
                   </Grid>
                 </Grid>
               </Grid>

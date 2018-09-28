@@ -1,4 +1,4 @@
-import { JsonController, Get, Post, HttpCode, Body, Param, Put, NotFoundError, Authorized } from 'routing-controllers'
+import { JsonController, Get, Post, HttpCode, Body, Param, Put, NotFoundError, Authorized, QueryParam } from 'routing-controllers'
 import Ticket from './entity'
 import Event from '../events/entity'
 import User from '../users/entity'
@@ -20,10 +20,11 @@ export default class TicketController {
   @HttpCode(201)
   async createTicket(
     @Param("eventId") eventId: number,
+    @QueryParam("userId") userId: number,
     @Body() { price, description, picture }
   ) {
     const event = await Event.findOne({ id: eventId })
-    const user = await User.findOne({ id: 1 })  //CHANGE ME!!!
+    const user = await User.findOne({ id: userId })
 
     const entity = await Ticket.create({ event, user, price, description, picture }).save()
     return entity

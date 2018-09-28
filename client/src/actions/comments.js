@@ -25,7 +25,7 @@ export const loadComments = (eventId, ticketId) => (dispatch, getState) => {
 }
 
 
-export const createComment = (eventId, ticketId, comment) => (dispatch, getState) => {
+export const createComment = (eventId, ticketId, user, comment) => (dispatch, getState) => {
   const state = getState()
   if (!state.currentUser) return null
   const jwt = state.currentUser.jwt
@@ -34,6 +34,7 @@ export const createComment = (eventId, ticketId, comment) => (dispatch, getState
   request
     .post(`${baseUrl}/events/${eventId}/tickets/${ticketId}`)
     .set('Authorization', `Bearer ${jwt}`)
+    .query({ userId: user.id })
     .send(comment)
     .then(result => dispatch(addComment(result.body)))
     .catch(err => console.error(err))

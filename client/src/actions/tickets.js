@@ -32,15 +32,15 @@ export const loadTickets = (eventId) => (dispatch) => {
 }
 
 
-export const createTicket = (eventId, ticket) => (dispatch, getState) => {
+export const createTicket = (eventId, user, ticket) => (dispatch, getState) => {
   const state = getState()
   if (!state.currentUser) return null
   const jwt = state.currentUser.jwt
   if (isExpired(jwt)) return dispatch(logout())
-
   request
     .post(`${baseUrl}/events/${eventId}/tickets`)
     .set('Authorization', `Bearer ${jwt}`)
+    .query({ userId: user.id })
     .send(ticket)
     .then(result => dispatch(addTicket(result.body)))
     .catch(err => console.error(err))

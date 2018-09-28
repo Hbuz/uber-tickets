@@ -1,4 +1,4 @@
-import { JsonController, Post, HttpCode, Body, Param, Authorized, Get } from 'routing-controllers'
+import { JsonController, Post, HttpCode, Body, Param, Authorized, Get, QueryParam } from 'routing-controllers'
 import Comment from './entity'
 import Ticket from '../tickets/entity'
 import User from '../users/entity'
@@ -21,10 +21,11 @@ export default class CommentController {
   @HttpCode(201)
   async createComment(
     @Param("ticketId") ticketId: number,
+    @QueryParam("userId") userId: number,
     @Body() { text }
   ) {
     const ticket = await Ticket.findOne({ id: ticketId })
-    const user = await User.findOne({ id: 1 })
+    const user = await User.findOne({ id: userId })
 
     const entity = await Comment.create({ user, ticket, text }).save()
     return entity
