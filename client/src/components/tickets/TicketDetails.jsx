@@ -75,7 +75,7 @@ const TicketsDetails = withStyles(styles)(
             <Grid item>EUR {selectedTicket.price}</Grid>
             <Grid item>
               <Grid container spacing={32}>
-                <Grid item><img src={ticketPic} /></Grid>
+                <Grid item><img width="350" height="250" src={ticketPic} /></Grid>
                 <Grid item>
                   <Grid container direction="column" spacing={32}>
                     <Grid item>Real picture: {selectedTicket.picture}</Grid>

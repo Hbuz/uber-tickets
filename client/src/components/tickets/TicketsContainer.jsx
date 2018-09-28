@@ -14,10 +14,12 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-const styles = () => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
     padding: 28,
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto',
   },
   container: {
     flexWrap: 'wrap'
@@ -89,13 +91,13 @@ const TicketsContainer = withStyles(styles)(
                             tickets['tickets'].map(ticket => {
                               return (
                                 //FIX ME!!! Warnings in console
-                                <TableRow key={ticket.id}>
+                                <div key={ticket.id}>
                                   <Link to={`/events/${idEvent}/tickets/${ticket.id}/details`}>
                                     <Tickets
                                       {...ticket} handleSubmit={this.handleSubmit} handleChange={this.handleChange}
                                     />
                                   </Link>
-                                </TableRow>
+                                </div>
                               )
                             })}
                         </TableBody>
